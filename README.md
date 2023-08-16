@@ -18,8 +18,10 @@ To run virtual experiments with Rb requires the following:
 - matplotlib==1.2.1++
 - cython==0.29.20+
 - ipython == 8+
+- itertools
+- functools
 ```
-Included are requirements.txt file (for pip) and an environment.yml file (for conda). I would highly recommend using the newest version of conda on your machine and running the following for setting up a conda environment.
+Included is an environment.yml file (for conda). I would highly recommend using the newest version of conda on your machine and running the following for setting up a conda environment.
 
 ## Installation Guide
 
