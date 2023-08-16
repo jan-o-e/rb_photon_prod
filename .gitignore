@@ -1,2 +1,6 @@
-
+*.pyx
+*.pyc
+.vscode/settings.json
 .DS_Store
+.conda
+
