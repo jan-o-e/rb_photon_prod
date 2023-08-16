@@ -13,11 +13,11 @@ To run virtual experiments with Rb requires the following:
 ```plaintext
 - qutip==4.7.0
 - python==3.6+
-- numpy 1.16+
+- numpy==1.16+
 - scipy==1.0+
 - matplotlib==1.2.1++
 - cython==0.29.20+
-- ipython == 8+
+- ipython==8+
 - itertools
 - functools
 ```
