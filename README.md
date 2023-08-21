@@ -16,7 +16,8 @@ To run virtual experiments with Rb requires the following:
 - numpy==1.16+
 - scipy==1.0+
 - matplotlib==1.2.1++
-- cython==0.29.20, <3.0.0 
+- cython==0.29.20, <3.0.0
+- C++ compiler (for mac install the xcode command line tools: xcode-select --install)
 - ipython==8+
 - itertools
 - functools
