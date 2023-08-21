@@ -16,7 +16,7 @@ To run virtual experiments with Rb requires the following:
 - numpy==1.16+
 - scipy==1.0+
 - matplotlib==1.2.1++
-- cython==0.29.20+
+- cython==0.29.20, <3.0.0 
 - ipython==8+
 - itertools
 - functools
@@ -38,6 +38,6 @@ Follow these steps to create a conda environment for this project:
    ```bash
    conda activate rb_photon_prod
 
-Note that this was tested on a Mac with M1 Apple Silicon chip and I have seen some dependency issues when using the older Macs or other operating systems. In that case follow the [qutip installation guide](https://qutip.org/docs/latest/installation.html) and also install matplotlib and notebook (jupyter notebook) with an environment manager like venv or conda.
+Note that this was tested on a Mac with M1 Apple Silicon chip and I have seen some dependency issues when using the older Macs or other operating systems. In that case follow the [qutip installation guide](https://qutip.org/docs/latest/installation.html) and also install matplotlib, cython (important caveat [cython version compatibility](https://github.com/qutip/qutip/issues/2198) and notebook (jupyter notebook) with an environment manager like venv or conda.
 
 In case of suggestions, suspected errors or enquiries please get in touch with me at jan.ernst@physics.ox.ac.uk, or submit a pull request.
