@@ -8,6 +8,7 @@ dependencies:
   - aiosqlite=0.18.0
   - anyio=3.5.0
   - appdirs=1.4.4
+  - appnope=0.1.2
   - argon2-cffi=21.3.0
   - argon2-cffi-bindings=21.2.0
   - asttokens=2.0.5
@@ -87,8 +88,10 @@ dependencies:
   - libbrotlienc=1.0.9
   - libcblas=3.9.0
   - libclang=12.0.0
+  - libcxx=16.0.6
   - libedit=3.1.20221030
   - libffi=3.4.4
+  - libgfortran=5.0.0
   - libgfortran5=11.3.0
   - libiconv=1.16
   - liblapack=3.9.0
