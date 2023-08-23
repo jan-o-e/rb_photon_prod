@@ -1,5 +1,5 @@
 name: Docker Image CI
-system:
+services:
   build:
 
     runs-on: ubuntu-latest
