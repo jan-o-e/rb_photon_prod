@@ -1,11 +1,8 @@
 name: Docker Image CI
-
-jobs:
-
+system:
   build:
 
     runs-on: ubuntu-latest
 
     steps:
-    - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
