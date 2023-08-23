@@ -40,7 +40,7 @@ Follow these steps to create a conda environment for this project:
    ```bash
    conda activate rb_photon_prod
 
-Note that this was tested on a Mac with M1 Apple Silicon chip and I have seen some dependency issues when using the older Macs or other operating systems. You can alternatively follow the [qutip installation guide](https://qutip.org/docs/latest/installation.html) and also install matplotlib, cython (important caveat. [cython version compatibility](https://github.com/qutip/qutip/issues/2198)9 and notebook (jupyter notebook) with a package manager of your choice.
+Note that this was tested on a Mac with M1 Apple Silicon chip and I have seen some dependency issues when using the older Macs or other operating systems. You can alternatively follow the [qutip installation guide](https://qutip.org/docs/latest/installation.html) and also install matplotlib, cython (important caveat. [cython version compatibility](https://github.com/qutip/qutip/issues/2198) ) and notebook (jupyter notebook) with a package manager of your choice.
 
 ## Run docker container (recommended to avoid dependency issues)
 
