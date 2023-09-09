@@ -1,7 +1,7 @@
 # rb_photon_prod
 [![Docker](https://github.com/jan-o-e/rb_photon_prod/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/jan-o-e/rb_photon_prod/actions/workflows/docker-publish.yml)
 
-[![Generic badge](https://img.shields.io/badge/arXiv-1804.10455-<COLOR>.svg)]([https://arxiv.org/abs/1804.10455)
+[![Generic badge](https://img.shields.io/badge/arXiv-1804.10455-<COLOR>.svg)](https://arxiv.org/abs/1804.10455)
 
 This respository has two parts: A [generalised simulation toolbox](./Source_Code) for atom-laser-cavity interactions with single Rb^87 atoms for Quantum Infrmation Processing and [data](./Plots) accompanying the paper describing an ideal photon burst productions scheme. All the results presented in Ernst et. al. *"Bursts of Polarised Photons from Atom-Cavity Sources"* can be produced with the generalised simulation toolbox. The code has been organised into several classes and files for various parts of the simulation, view the General_Rb_Simulator.ipynb for an example of how to simulate a particular sequence (namely the ideal one documented in the paper), but feel free to construct your own notebooks for your own purposes.
 
@@ -10,13 +10,13 @@ The code presented here was inspired by the original [rb_cqed package for modell
 To run virtual experiments with Rb requires the following:
 <details>
 <summary>📦 Package Requirements</summary>
-<br>
+   
 - qutip==4.7.0
 - python==3.6+
 - numpy==1.16+
 - scipy==1.0+
 - matplotlib==1.2.1++
-- cython==0.29.20, <3.0.0
+- cython==0.29.20, <30.0.0
 - C++ compiler (for mac install the xcode command line tools: xcode-select --install)
 - ipython==8+
 </details>
