@@ -3,6 +3,8 @@
 
 [![Generic badge](https://img.shields.io/badge/arXiv-1804.10455-<COLOR>.svg)](https://arxiv.org/abs/1804.10455)
 
+[![DOI](https://zenodo.org/badge/679003178.svg)](https://zenodo.org/badge/latestdoi/679003178)
+
 This respository has two parts: A [generalised simulation toolbox](./Source_Code) for atom-laser-cavity interactions with single Rb^87 atoms for Quantum Infrmation Processing and [data](./Plots) accompanying the paper describing an ideal photon burst productions scheme. All the results presented in Ernst et. al. *"Bursts of Polarised Photons from Atom-Cavity Sources"* can be produced with the generalised simulation toolbox. The code has been organised into several classes and files for various parts of the simulation, view the General_Rb_Simulator.ipynb for an example of how to simulate a particular sequence (namely the ideal one documented in the paper), but feel free to construct your own notebooks for your own purposes.
 
 The code presented here was inspired by the original [rb_cqed package for modelling cavity-QED](https://github.com/tomdbar/rb-cqed), the Mathematica scripts used for calculating the Clebsch-Gordan Coefficients and energy level splittings are taken from there and some functions are adapted or taken straight from that repository too - if you will - view is as rbcqedv2.
