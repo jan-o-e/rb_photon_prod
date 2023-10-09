@@ -1,7 +1,7 @@
 # rb_photon_prod
 [![Docker](https://github.com/jan-o-e/rb_photon_prod/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/jan-o-e/rb_photon_prod/actions/workflows/docker-publish.yml)
 
-[![Generic badge](https://img.shields.io/badge/arXiv-1804.10455-<COLOR>.svg)](https://arxiv.org/abs/1804.10455)
+[![Generic badge](https://img.shields.io/badge/arXiv-2305.04899-<COLOR>.svg)](https://arxiv.org/abs/2305.04899)
 
 [![DOI](https://zenodo.org/badge/679003178.svg)](https://zenodo.org/badge/latestdoi/679003178)
 
