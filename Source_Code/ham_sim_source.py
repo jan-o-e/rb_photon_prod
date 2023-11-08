@@ -1,6 +1,7 @@
 from itertools import chain
 from functools import reduce
 import numpy as np
+import math
 
 def laserCoupling(photonicSpace:bool, ketbras, Omega,gLev,xLev,deltaL,args_list,pulseShape='np.sin(w*t)**2',array=False,amp_array=[], t_array=[]):
     '''
@@ -26,18 +27,23 @@ def laserCoupling(photonicSpace:bool, ketbras, Omega,gLev,xLev,deltaL,args_list,
     if photonicSpace:
         if array:
             assert len(amp_array)==len(t_array)
-            output_array=[]
-            for i in range(0,(len(t_array)-1)):
-                print(i)
-                output_array.append([ -(Omega/2)*(
-                        ( kb([gLev,0,0],[xLev,0,0]) + kb([gLev,0,1],[xLev,0,1]) + kb([gLev,1,0],[xLev,1,0]) + kb([gLev,1,1],[xLev,1,1]) )
-                        ), np.array((amp_array[i]*np.exp(1j*deltaL*t_array[i])),dtype=np.cdouble)])
-                output_array.append([ -(Omega/2)*(
-                        ( kb([xLev,0,0],[gLev,0,0]) + kb([xLev,0,1],[gLev,0,1]) + kb([xLev,1,0],[gLev,1,0]) + kb([xLev,1,1],[gLev,1,1]) )
-                        ), np.array((amp_array[i]*np.exp(-1j*deltaL*t_array[i])),dtype=np.cdouble)])
+            output_array_plus=np.empty(len(amp_array),dtype=complex)
+            output_array_minus=np.empty(len(amp_array),dtype=complex)
+            for i in range(len(t_array)):
+                output_array_plus[i]=amp_array[i]*np.exp(1j*deltaL*t_array[i])
+                output_array_minus[i]=amp_array[i]*np.exp(-1j*deltaL*t_array[i])
             #no arguments needed here so just return an empty args dictionary
+            assert len(output_array_minus)==len(output_array_plus)==len(t_array)
             return (
-                [output_array,{}]
+                     [
+                [ -(Omega/2)*(
+                        ( kb([gLev,0,0],[xLev,0,0]) + kb([gLev,0,1],[xLev,0,1]) + kb([gLev,1,0],[xLev,1,0]) + kb([gLev,1,1],[xLev,1,1]) )
+                ),output_array_plus],
+                [ -(Omega/2)*(
+                        ( kb([xLev,0,0],[gLev,0,0]) + kb([xLev,0,1],[gLev,0,1]) + kb([xLev,1,0],[gLev,1,0]) + kb([xLev,1,1],[gLev,1,1]) )
+                ),output_array_minus]
+                ],
+                {}
             )
         
         else:
@@ -55,17 +61,23 @@ def laserCoupling(photonicSpace:bool, ketbras, Omega,gLev,xLev,deltaL,args_list,
 
     else:
         if array:
-            output_array=[]
-            for i in range(0,(len(t_array)-1)):
-                output_array.append([ -(Omega/2)*(
-                        ( kb([gLev],[xLev]) + kb([gLev],[xLev]) + kb([gLev],[xLev]) + kb([gLev],[xLev]) )
-                        ),np.array((amp_array[i]*np.exp(1j*deltaL*t_array[i])),dtype=np.cdouble)])
-                output_array.append([ -(Omega/2)*(
-                        ( kb([xLev],[gLev]) + kb([xLev],[gLev]) + kb([xLev],[gLev]) + kb([xLev],[gLev]) )
-                        ), np.array((amp_array[i]*np.exp(-1j*deltaL*t_array[i])),dtype=np.cdouble)])
+            output_array_plus=np.empty(len(amp_array),dtype=complex)
+            output_array_minus=np.empty(len(amp_array),dtype=complex)
+            for i,t in enumerate(t_array):
+                output_array_plus[i]=(amp_array[i]*np.exp(1j*deltaL*t))
+                output_array_minus[i]=(amp_array[i]*np.exp(-1j*deltaL*t))
             #no arguments needed here so just return an empty args dictionary
+            assert len(output_array_minus)==len(output_array_plus)==len(t_array)
             return (
-                [output_array,{}]
+                                [
+                [ -(Omega/2)*(
+                        ( kb([gLev],[xLev]) + kb([gLev],[xLev]) + kb([gLev],[xLev]) + kb([gLev],[xLev]) )
+                ),output_array_plus],
+                [ -(Omega/2)*(
+                        ( kb([xLev],[gLev]) + kb([xLev],[gLev]) + kb([xLev],[gLev]) + kb([xLev],[gLev]) )
+                ),output_array_minus]
+                ],
+                {}
             )
         else:
             return (
