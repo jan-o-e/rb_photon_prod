@@ -20,7 +20,7 @@ class rb_atom_config:
     def __init__(self, bfieldsplit:str, ketbras:rb_atom_ketbras):
         self.bfieldsplit=bfieldsplit
         self.ketbras = ketbras
-        self.photonicSpace = ketbras.photonicSpace
+        self.photonic_space = ketbras.photonicSpace
         imports = []
         imports_d1 = []
 
@@ -192,11 +192,9 @@ class rb_atom_config:
         d_d2 = 3.584*10**(-29)
         d_d1 = 2.537*10**(-29) 
         return ([gamma_d2,gamma_d1,d_d2,d_d1])
-        
-    
-    #this function returns a list of collapse operators for spontaneous emission via the d1 and d2 lines respectively as an array
-    
+           
     def spont_em_ops(self, atomStates):
+        #this function returns a list of collapse operators for spontaneous emission via the d1 and d2 lines respectively as an array
         N=2 # Number of Fock states
         M = len(atomStates)    
         [gamma_d1, gamma_d2]=[self.getrb_rates()[0], self.getrb_rates()[1]]
@@ -290,23 +288,38 @@ class rb_atom_config:
         # is 1/2 for D2 but splitting ratios need to sum to 1
 
         for xLev in spontEmmChannels:
-            try:
-                spontDecayOps_d2.append(np.sqrt(2) * xLev[2] * np.sqrt(2*gamma_d2) * 
-                            tensor(
-                                basis(M, atomStates[xLev[0]]) * basis(M, atomStates[xLev[1]]).dag(), qeye(N), qeye(N)))
-            except KeyError:
-                pass
+            if self.photonic_space:
+                try:
+                    spontDecayOps_d2.append(np.sqrt(2) * xLev[2] * np.sqrt(2*gamma_d2) * 
+                                tensor(
+                                    basis(M, atomStates[xLev[0]]) * basis(M, atomStates[xLev[1]]).dag(), qeye(N), qeye(N)))
+                except KeyError:
+                    pass
+            else:
+                try:
+                    spontDecayOps_d2.append(np.sqrt(2) * xLev[2] * np.sqrt(2*gamma_d2) * 
+                                basis(M, atomStates[xLev[0]]) * basis(M, atomStates[xLev[1]]).dag())
+                except KeyError:
+                    pass
 
 
         spontDecayOps_d1 = []
 
         for xLev in spontEmmChannels_d1:
-            try:
-                spontDecayOps_d1.append( xLev[2] * np.sqrt(2*gamma_d1) * 
-                            tensor(
-                                basis(M, atomStates[xLev[0]]) * basis(M, atomStates[xLev[1]]).dag(), qeye(N), qeye(N)))
-            except KeyError:
-                pass
+            if self.photonic_space:
+                try:
+                    spontDecayOps_d1.append( xLev[2] * np.sqrt(2*gamma_d1) * 
+                                tensor(
+                                    basis(M, atomStates[xLev[0]]) * basis(M, atomStates[xLev[1]]).dag(), qeye(N), qeye(N)))
+                except KeyError:
+                    pass
+            else:
+                try:
+                    spontDecayOps_d1.append(xLev[2] * np.sqrt(2*gamma_d1) * 
+                                basis(M, atomStates[xLev[0]]) * basis(M, atomStates[xLev[1]]).dag())
+                except KeyError:
+                    pass
+
 
     
 
@@ -506,14 +519,13 @@ class rb_atom_config:
         (self.CG_d1g2PPx1P,   'g2PP', 'x1P_d1',   delta + 2 * self.deltaZ_d1 - self.deltaZx1P_d1 - self.deltaEx1_d1,-1)    
         ]    
 
-
+    def gen_H_VSTIRAP_D1(self,ketbras, atomStates, delta_cav, delta_laser,F_start,F_final,F_exc,laser_pol, omega_s, driving_shape, shape_args, coupling_factor, deltaP, quant_bas):
     #create Hamiltonian for V-STIRAP photon production w.r.t. D1 transitions
     #arguments: 
     # xlvls, atomStates - excited levels and ground states to be included in simulation
     # delta, F_start, F_final, F_exc - detuning w.r.t. desired excited state (assuming two photon resonance condition for both laser and cavity), initial F level, final F level, and desired excited level F' w.r.t. adiabatic passage is performed
     # laser_pol, omega_s, driving_shape, shape_args - polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string format, and dictionar list of required args for the driving pulse
     # coupling_factor, deltaP, quant_axis - cavity coupling in angular frequeny with included CG coefficient for the required transition, cavity birefringence and cav basis vectors
-    def gen_H_VSTIRAP_D1(self,ketbras, atomStates, delta_cav, delta_laser,F_start,F_final,F_exc,laser_pol, omega_s, driving_shape, shape_args, coupling_factor, deltaP, quant_bas):
 
         args_hams_driving_pulse=shape_args
         quant_bas_x=quant_bas[0]
@@ -562,21 +574,21 @@ class rb_atom_config:
         hams_cavity_pi, args_hams_cavity_pi = couplingsToCavHamiltonian(quant_bas_x,quant_bas_y, ketbras, atomStates,deltaP, coupling_factor,cavityCouplings_pi)
         hams_cavity_plus, args_hams_cavity_plus = couplingsToCavHamiltonian(quant_bas_x,quant_bas_y, ketbras, atomStates,deltaP, coupling_factor,cavityCouplings_plus)
         hams_cavity_minus, args_hams_cavity_minus = couplingsToCavHamiltonian(quant_bas_x,quant_bas_y, ketbras, atomStates,deltaP, coupling_factor,cavityCouplings_minus)
-        hams_VStirap_laser, args_hams_VStirap_laser = couplingsToCavHamiltonian(ketbras, atomStates,self.photonicSpace,laserCouplings_VStirap,omega_s,
-                                                                                    driving_shape)
+        hams_VStirap_laser, args_hams_VStirap_laser = couplingsToLaserHamiltonian(ketbras, atomStates,self.photonic_space,laserCouplings_VStirap,omega_s,driving_shape)
         args_hams_VStirap = {**args_hams_VStirap_laser,**args_hams_cavity_plus,**args_hams_cavity_minus,**args_hams_cavity_pi, **args_hams_driving_pulse}
 
         H_VStirap = list(chain(*[hams_cavity_plus,hams_cavity_minus, hams_cavity_pi,hams_VStirap_laser]))
 
         return [H_VStirap, args_hams_VStirap]
 
+    
+    def gen_H_VSTIRAP_D2(self, ketbras, atomStates, delta_cav,delta_laser,F_start,F_final,F_exc,laser_pol, omega_s, driving_shape, shape_args, coupling_factor, deltaP, quant_bas):
     #create Hamiltonian for V-STIRAP photon production w.r.t. D2 transitions
     #arguments: 
     # xlvls, atomStates - excited levels and ground states to be included in simulation
     # delta_cav,delta_laser, F_start, F_final, F_exc - detuning w.r.t. desired excited state (assuming two photon resonance condition for both laser and cavity), initial F level, final F level, and desired excited level F' w.r.t. adiabatic passage is performed
     # laser_pol, omega_s, driving_shape, shape_args - polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string format, and dictionar list of required args for the driving pulse
     # coupling_factor, deltaP, quant_bas - cavity coupling in angular frequeny with included CG coefficient for the required transition, cavity birefringence and basis for the quantisation axis and cavity axis
-    def gen_H_VSTIRAP_D2(self, ketbras, atomStates, delta_cav,delta_laser,F_start,F_final,F_exc,laser_pol, omega_s, driving_shape, shape_args, coupling_factor, deltaP, quant_bas):
 
         args_hams_driving_pulse=shape_args
         quant_bas_x=quant_bas[0]
@@ -620,20 +632,20 @@ class rb_atom_config:
         hams_cavity_pi, args_hams_cavity_pi = couplingsToCavHamiltonian(quant_bas_x,quant_bas_y, ketbras, atomStates,deltaP, coupling_factor,cavityCouplings_pi)
         hams_cavity_plus, args_hams_cavity_plus = couplingsToCavHamiltonian(quant_bas_x,quant_bas_y, ketbras, atomStates,deltaP, coupling_factor,cavityCouplings_plus)
         hams_cavity_minus, args_hams_cavity_minus = couplingsToCavHamiltonian(quant_bas_x,quant_bas_y, ketbras, atomStates,deltaP, coupling_factor,cavityCouplings_minus)
-        hams_VStirap_laser, args_hams_VStirap_laser = couplingsToLaserHamiltonian(ketbras, atomStates,self.photonicSpace,laserCouplings_VStirap,omega_s,
-                                                                                    driving_shape)
+        hams_VStirap_laser, args_hams_VStirap_laser = couplingsToLaserHamiltonian(ketbras, atomStates,self.photonic_space,laserCouplings_VStirap,omega_s,driving_shape)
         args_hams_VStirap = {**args_hams_VStirap_laser,**args_hams_cavity_plus,**args_hams_cavity_minus,**args_hams_cavity_pi, **args_hams_driving_pulse}
 
         H_VStirap = list(chain(*[hams_cavity_plus,hams_cavity_minus, hams_cavity_pi,hams_VStirap_laser]))
 
         return [H_VStirap, args_hams_VStirap]
     
-    #create Hamiltonian for laser pulse w.r.t. D2 transitions
-    #arguments: 
-    # xlvls, atomStates - excited levels and ground states to be included in simulation
-    # delta, F_start, F_exc - detuning w.r.t. desired excited stat, initial F level and desired excited level F' 
-    # laser_pol, omega, driving_shape, shape_args - polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string format, and dictionar list of required args for the driving pulse
-    def gen_H_Pulse_D1(self,ketbras, atomStates, delta,F_start,F_exc,laser_pol, omega, driving_shape, shape_args):
+
+    def gen_H_Pulse_D1(self,ketbras, atomStates, delta,F_start,F_exc,laser_pol, omega, shape_args, driving_shape='np.sin(w*t)**2', _array=False, _amp=[], _t=[]):
+        #create Hamiltonian for laser pulse w.r.t. D2 transitions
+        #arguments: 
+        # xlvls, atomStates - excited levels and ground states to be included in simulation
+        # delta, F_start, F_exc - detuning w.r.t. desired excited stat, initial F level and desired excited level F' 
+        # laser_pol, omega, driving_shape, shape_args - polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string format, and dictionar list of required args for the driving pulse
         args_hams_driving_pulse=shape_args
 
         delta_laser=delta    
@@ -657,17 +669,18 @@ class rb_atom_config:
                 laserCouplings_Pulse = self.getD1CouplingsF2_Sigma_Minus(delta_laser)
             
 
-        hams_laser, args_hams_laser = couplingsToLaserHamiltonian(ketbras, atomStates,self.photonicSpace,laserCouplings_Pulse,omega,
-                                                                                    driving_shape)
+        hams_laser, args_hams_laser = couplingsToLaserHamiltonian(ketbras, atomStates,self.photonic_space,laserCouplings_Pulse,omega,
+                                                                                    driving_shape,  _array, _amp, _t)
         args_hams_laser_r={**args_hams_driving_pulse, **args_hams_laser}
         return [hams_laser, args_hams_laser_r]
     
-    #create Hamiltonian for laser pulse w.r.t. D1 transitions
-    #arguments: 
-    # xlvls, atomStates - excited levels and ground states to be included in simulation
-    # delta, F_start, F_exc - detuning w.r.t. desired excited stat, initial F level and desired excited level F' 
-    # laser_pol, omega, driving_shape, shape_args - polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string
-    def gen_H_Pulse_D2(self,ketbras, atomStates, delta,F_start,F_exc,laser_pol, omega, driving_shape, shape_args):
+
+    def gen_H_Pulse_D2(self,ketbras, atomStates, delta,F_start,F_exc,laser_pol, omega,shape_args, driving_shape='np.sin(w*t)**2',  _array=False, _amp=[], _t=[]):
+        #create Hamiltonian for laser pulse w.r.t. D1 transitions
+        #arguments: 
+        # xlvls, atomStates - excited levels and ground states to be included in simulation
+        # delta, F_start, F_exc - detuning w.r.t. desired excited stat, initial F level and desired excited level F' 
+        # laser_pol, omega, driving_shape, shape_args - polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string
         # Create Hamiltonian terms for laser pulse w.r.t. d1 transitions, returns hamiltonian and hamiltonian arguments
         args_hams_driving_pulse=shape_args
 
@@ -696,8 +709,8 @@ class rb_atom_config:
                 laserCouplings_Pulse = self.getCouplingsF2_Sigma_Minus(delta_laser)
             
 
-        hams_laser, args_hams_laser = couplingsToLaserHamiltonian(ketbras, atomStates,self.photonicSpace,laserCouplings_Pulse,omega,
-                                                                                    driving_shape)
+        hams_laser, args_hams_laser = couplingsToLaserHamiltonian(ketbras, atomStates,self.photonic_space,laserCouplings_Pulse,omega,
+                                                                                    driving_shape,  _array, _amp, _t)
         return [hams_laser, args_hams_laser]
     
         
@@ -735,104 +748,134 @@ class rb_atom_config:
         return(fig)
 
 
-    def plotter_atomstate_population(self, ketbras, output, t_list, bol_d1):
+    def plotter_atomstate_population(self, ketbras, output, t_list, bol_d1:bool):
+        '''Returns plots of ground state populations and excited state populations for either the D1 or D2 transition lines
+            input args
+            ketbras: precomputed ketbras for the simulation
+            output: output from numerical qutip solver for run of a particular hamiltonian
+            t_list: list of timesteps in the hamiltonian simulation
+            bol_d1: boolean for whether to print the d1 or d2 excited state populations'''
         output_states=output
         t=t_list
         tStep=(t[-1]-t[0])/(len(t)-1)
 
-        [
-            ag1M, ag1, ag1P,
-            ag2MM, ag2M, ag2, ag2P, ag2PP,
-            ax0,
-            ax1M, ax1, ax1P,
-            ax2MM, ax2M, ax2, ax2P, ax2PP,
-            ax3MMM, ax3MM, ax3M, ax3, ax3P, ax3PP, ax3PPP,
-            ax1M_d1, ax1_d1, ax1P_d1,
-            ax2MM_d1, ax2M_d1, ax2_d1, ax2P_d1, ax2PP_d1
-        ] = self.ketbras.getrb_aList(ketbras)
+        if bol_d1:
+            [
+                ag1M, ag1, ag1P,
+                ag2MM, ag2M, ag2, ag2P, ag2PP,
+                ax1M_d1, ax1_d1, ax1P_d1,
+                ax2MM_d1, ax2M_d1, ax2_d1, ax2P_d1, ax2PP_d1
+            ] = self.ketbras.getrb_aList(ketbras)
 
-        [exp_ag1,exp_ag1P,exp_ag1M,
-        exp_ag2MM,exp_ag2M,exp_ag2,exp_ag2P,exp_ag2PP] = [
-            np.real( np.array([(xLev*a).tr() for xLev in output_states]) ) 
-            for a in [ag1,ag1P,ag1M,
-                    ag2MM,ag2M,ag2,ag2P,ag2PP]
-        ]
+            [exp_ax1M_d1,exp_ax1_d1,exp_ax1P_d1,
+            exp_ax2MM_d1,exp_ax2M_d1,exp_ax2_d1,exp_ax2P_d1,exp_ax2PP_d1] = [
+                np.real( np.array([(xLev*a).tr() for xLev in output_states]) )
+                for a in [ax1M_d1,ax1_d1,ax1P_d1,
+                        ax2MM_d1,ax2M_d1,ax2_d1,ax2P_d1,ax2PP_d1]
+            ]
 
-        [exp_ax0,
-        exp_ax1,exp_ax1P,exp_ax1M,
-        exp_ax2MM,exp_ax2M,exp_ax2,exp_ax2P,exp_ax2PP,
-        exp_ax3MMM,exp_ax3MM,exp_ax3M,exp_ax3,exp_ax3P,exp_ax3PP,exp_ax3PPP] = [
-            np.real( np.array([(xLev*a).tr() for xLev in output_states]) )
-            for a in [ax0,
-                    ax1,ax1P,ax1M,
-                    ax2MM,ax2M,ax2,ax2P,ax2PP,
-                    ax3MMM,ax3MM,ax3M,ax3,ax3P,ax3PP,ax3PPP]
-        ]
+            [exp_ag1,exp_ag1P,exp_ag1M,
+            exp_ag2MM,exp_ag2M,exp_ag2,exp_ag2P,exp_ag2PP] = [
+                np.real( np.array([(xLev*a).tr() for xLev in output_states]) ) 
+                for a in [ag1,ag1P,ag1M,
+                        ag2MM,ag2M,ag2,ag2P,ag2PP]
+            ]
 
-        [exp_ax1M_d1,exp_ax1_d1,exp_ax1P_d1,
-        exp_ax2MM_d1,exp_ax2M_d1,exp_ax2_d1,exp_ax2P_d1,exp_ax2PP_d1] = [
-            np.real( np.array([(xLev*a).tr() for xLev in output_states]) )
-            for a in [ax1M_d1,ax1_d1,ax1P_d1,
-                    ax2MM_d1,ax2M_d1,ax2_d1,ax2P_d1,ax2PP_d1]
-        ]
+            fig_d1, (a1,a2,b1,b2) = plt.subplots(4,1,figsize=(15,12))
 
-        # Plotting
-        fig_d2, (a1,a2,a3,a4,a5,a6) = plt.subplots(6,1,figsize=(14,12))
+            a1.plot(t, exp_ag1M,   'r', label='$g1M: |F,mF>=|1,-1>$')
+            a1.plot(t, exp_ag1,  '--c', label='$g1:  |F,mF>=|1,0>$')
+            a1.plot(t, exp_ag1P, '--m', label='$g1P: |F,mF>=|1,+1>$')
+            a1.legend(loc='best')
 
-        a1.plot(t, exp_ag1M,   'r', label='$g1M: |F,mF>=|1,-1>$')
-        a1.plot(t, exp_ag1,  '--c', label='$g1:  |F,mF>=|1,0>$')
-        a1.plot(t, exp_ag1P, '--m', label='$g1P: |F,mF>=|1,+1>$')
-        a1.legend(loc='best')
-
-        a2.plot(t, exp_ag2MM,  'b', label='$g2MM:|F,mF>=|2,-2>$')
-        a2.plot(t, exp_ag2M, '--r', label='$g2M: |F,mF>=|2,-1>$')
-        a2.plot(t, exp_ag2,  '--y', label='$g2:  |F,mF>=|2,0>$')
-        a2.plot(t, exp_ag2P, '--m', label='$g2P: |F,mF>=|2,+1>$')
-        a2.plot(t, exp_ag2PP,'--k', label='$g2PP:|F,mF>=|2,+2>$')
-        a2.legend(loc='best')
-
-        a3.plot(t, exp_ax0,  'b', label='$x0_{D2}:  |F,mF>=|0,0>$')
-        a3.legend(loc='best')
-
-        a4.plot(t, exp_ax1M,   'r', label='$x1M_{D2}: |F,mF>=|1,-1>$')
-        a4.plot(t, exp_ax1,  '--c', label='$x1_{D2}:  |F,mF>=|1,0>$')
-        a4.plot(t, exp_ax1P, '--m', label='$x1P_{D2}: |F,mF>=|1,+1>$')
-        a4.legend(loc='best')
-
-        a5.plot(t, exp_ax2MM,  'b', label='$x2MM_{D2}:|F,mF>=|2,-2>$')
-        a5.plot(t, exp_ax2M, '--r', label='$x2M_{D2}: |F,mF>=|2,-1>$')
-        a5.plot(t, exp_ax2,  '--y', label='$x2_{D2}:  |F,mF>=|2,0>$')
-        a5.plot(t, exp_ax2P, '--m', label='$x2P_{D2}: |F,mF>=|2,+1>$')
-        a5.plot(t, exp_ax2PP,'--k', label='$x2PP_{D2}:|F,mF>=|2,+2>$')
-        a5.legend(loc='best')
-
-        a6.plot(t, exp_ax3MMM,  'b', label='$x3MMM_{D2}:|F,mF>=|3,-3>$')
-        a6.plot(t, exp_ax3MM, '--r', label='$x3MM_{D2}: |F,mF>=|3,-2>$')
-        a6.plot(t, exp_ax3M,  '--y', label='$x3M_{D2}:  |F,mF>=|3,-1>$')
-        a6.plot(t, exp_ax3,  '--c', label='$x3_{D2}:  |F,mF>=|3,0>$')
-        a6.plot(t, exp_ax3P, '--m', label='$x3P_{D2}: |F,mF>=|3,+1>$')
-        a6.plot(t, exp_ax3PP,'--k', label='$x3PP_{D2}:|F,mF>=|3,+2>$')
-        a6.plot(t, exp_ax3PPP,'--g', label='$x3PPP_{D2}:|F,mF>=|3,+3>$')
-        a6.legend(loc='best')
+            a2.plot(t, exp_ag2MM,  'b', label='$g2MM:|F,mF>=|2,-2>$')
+            a2.plot(t, exp_ag2M, '--r', label='$g2M: |F,mF>=|2,-1>$')
+            a2.plot(t, exp_ag2,  '--y', label='$g2:  |F,mF>=|2,0>$')
+            a2.plot(t, exp_ag2P, '--m', label='$g2P: |F,mF>=|2,+1>$')
+            a2.plot(t, exp_ag2PP,'--k', label='$g2PP:|F,mF>=|2,+2>$')
+            a2.legend(loc='best')
 
 
-        fig_d1, (b1,b2) = plt.subplots(2,1,figsize=(15,12))
+            b1.plot(t, exp_ax1M_d1,   'r', label='$x1M_{D1}: |F,mF>=|1,-1>$')
+            b1.plot(t, exp_ax1_d1,  '--c', label='$x1_{D1}:  |F,mF>=|1,0>$')
+            b1.plot(t, exp_ax1P_d1, '--m', label='$x1P_{D1}: |F,mF>=|1,+1>$')
+            b1.legend(loc='best')
 
-        b1.plot(t, exp_ax1M_d1,   'r', label='$x1M_{D1}: |F,mF>=|1,-1>$')
-        b1.plot(t, exp_ax1_d1,  '--c', label='$x1_{D1}:  |F,mF>=|1,0>$')
-        b1.plot(t, exp_ax1P_d1, '--m', label='$x1P_{D1}: |F,mF>=|1,+1>$')
-        b1.legend(loc='best')
+            b2.plot(t, exp_ax2MM_d1,  'b', label='$x2MM_{D1}:|F,mF>=|2,-2>$')
+            b2.plot(t, exp_ax2M_d1, '--r', label='$x2M_{D1}: |F,mF>=|2,-1>$')
+            b2.plot(t, exp_ax2_d1,  '--y', label='$x2_{D1}:  |F,mF>=|2,0>$')
+            b2.plot(t, exp_ax2P_d1, '--m', label='$x2P_{D1}: |F,mF>=|2,+1>$')
+            b2.plot(t, exp_ax2PP_d1,'--k', label='$2PP_{D1}:|F,mF>=|2,+2>$')
+            b2.legend(loc='best')
 
-        b2.plot(t, exp_ax2MM_d1,  'b', label='$x2MM_{D1}:|F,mF>=|2,-2>$')
-        b2.plot(t, exp_ax2M_d1, '--r', label='$x2M_{D1}: |F,mF>=|2,-1>$')
-        b2.plot(t, exp_ax2_d1,  '--y', label='$x2_{D1}:  |F,mF>=|2,0>$')
-        b2.plot(t, exp_ax2P_d1, '--m', label='$x2P_{D1}: |F,mF>=|2,+1>$')
-        b2.plot(t, exp_ax2PP_d1,'--k', label='$2PP_{D1}:|F,mF>=|2,+2>$')
-        b2.legend(loc='best')
+            return fig_d1
 
 
-        if bol_d1==True:
-            return fig_d2, fig_d1
         else:
+            [
+                ag1M, ag1, ag1P,
+                ag2MM, ag2M, ag2, ag2P, ag2PP,
+                ax0,
+                ax1M, ax1, ax1P,
+                ax2MM, ax2M, ax2, ax2P, ax2PP,
+                ax3MMM, ax3MM, ax3M, ax3, ax3P, ax3PP, ax3PPP
+            ] = self.ketbras.getrb_aList(ketbras)
+            [exp_ax0,
+            exp_ax1,exp_ax1P,exp_ax1M,
+            exp_ax2MM,exp_ax2M,exp_ax2,exp_ax2P,exp_ax2PP,
+            exp_ax3MMM,exp_ax3MM,exp_ax3M,exp_ax3,exp_ax3P,exp_ax3PP,exp_ax3PPP] = [
+                np.real( np.array([(xLev*a).tr() for xLev in output_states]) )
+                for a in [ax0,
+                        ax1,ax1P,ax1M,
+                        ax2MM,ax2M,ax2,ax2P,ax2PP,
+                        ax3MMM,ax3MM,ax3M,ax3,ax3P,ax3PP,ax3PPP]
+            ]
+        
+            [exp_ag1,exp_ag1P,exp_ag1M,
+            exp_ag2MM,exp_ag2M,exp_ag2,exp_ag2P,exp_ag2PP] = [
+                np.real( np.array([(xLev*a).tr() for xLev in output_states]) ) 
+                for a in [ag1,ag1P,ag1M,
+                        ag2MM,ag2M,ag2,ag2P,ag2PP]
+            ]
+
+            # Plotting
+            fig_d2, (a1,a2,a3,a4,a5,a6) = plt.subplots(6,1,figsize=(14,12))
+
+            a1.plot(t, exp_ag1M,   'r', label='$g1M: |F,mF>=|1,-1>$')
+            a1.plot(t, exp_ag1,  '--c', label='$g1:  |F,mF>=|1,0>$')
+            a1.plot(t, exp_ag1P, '--m', label='$g1P: |F,mF>=|1,+1>$')
+            a1.legend(loc='best')
+
+            a2.plot(t, exp_ag2MM,  'b', label='$g2MM:|F,mF>=|2,-2>$')
+            a2.plot(t, exp_ag2M, '--r', label='$g2M: |F,mF>=|2,-1>$')
+            a2.plot(t, exp_ag2,  '--y', label='$g2:  |F,mF>=|2,0>$')
+            a2.plot(t, exp_ag2P, '--m', label='$g2P: |F,mF>=|2,+1>$')
+            a2.plot(t, exp_ag2PP,'--k', label='$g2PP:|F,mF>=|2,+2>$')
+            a2.legend(loc='best')
+
+            a3.plot(t, exp_ax0,  'b', label='$x0_{D2}:  |F,mF>=|0,0>$')
+            a3.legend(loc='best')
+
+            a4.plot(t, exp_ax1M,   'r', label='$x1M_{D2}: |F,mF>=|1,-1>$')
+            a4.plot(t, exp_ax1,  '--c', label='$x1_{D2}:  |F,mF>=|1,0>$')
+            a4.plot(t, exp_ax1P, '--m', label='$x1P_{D2}: |F,mF>=|1,+1>$')
+            a4.legend(loc='best')
+
+            a5.plot(t, exp_ax2MM,  'b', label='$x2MM_{D2}:|F,mF>=|2,-2>$')
+            a5.plot(t, exp_ax2M, '--r', label='$x2M_{D2}: |F,mF>=|2,-1>$')
+            a5.plot(t, exp_ax2,  '--y', label='$x2_{D2}:  |F,mF>=|2,0>$')
+            a5.plot(t, exp_ax2P, '--m', label='$x2P_{D2}: |F,mF>=|2,+1>$')
+            a5.plot(t, exp_ax2PP,'--k', label='$x2PP_{D2}:|F,mF>=|2,+2>$')
+            a5.legend(loc='best')
+
+            a6.plot(t, exp_ax3MMM,  'b', label='$x3MMM_{D2}:|F,mF>=|3,-3>$')
+            a6.plot(t, exp_ax3MM, '--r', label='$x3MM_{D2}: |F,mF>=|3,-2>$')
+            a6.plot(t, exp_ax3M,  '--y', label='$x3M_{D2}:  |F,mF>=|3,-1>$')
+            a6.plot(t, exp_ax3,  '--c', label='$x3_{D2}:  |F,mF>=|3,0>$')
+            a6.plot(t, exp_ax3P, '--m', label='$x3P_{D2}: |F,mF>=|3,+1>$')
+            a6.plot(t, exp_ax3PP,'--k', label='$x3PP_{D2}:|F,mF>=|3,+2>$')
+            a6.plot(t, exp_ax3PPP,'--g', label='$x3PPP_{D2}:|F,mF>=|3,+3>$')
+            a6.legend(loc='best')
+
             return fig_d2
 

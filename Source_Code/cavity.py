@@ -3,10 +3,8 @@ import numpy as np
 from qutip import tensor, destroy, qeye, expect
 from matplotlib import pyplot as plt
 
-
-#define the basis transformation between atomic polarisation basis (defined by quantisation axis, i.e. magnetic field direction) and cavity polarisation basis
-
 def quant_axis_cavbasis_mapping(b_vec,cav_vec):
+    #define the basis transformation between atomic polarisation basis (defined by quantisation axis, i.e. magnetic field direction) and cavity polarisation basis
     #linear cavity basis is spanned by two vectors perpendicular to the cavity axis
     cav_pol_1=perpendicular_vector(cav_vec)
     cav_pol_2=np.cross(cav_pol_1,cav_vec)
@@ -34,8 +32,8 @@ def cav_basis_trans(alpha, phi1, phi2):
     
     return ([alpha, beta, phi1, phi2])
 
-#define caviy collapse operators  by inputting the photonic field decay rate and an atomStates dictionary
 def cav_collapse_ops(kappa,atomStates):
+    #define caviy collapse operators  by inputting the photonic field decay rate and an atomStates dictionary
     N=2
     M=len(atomStates)
     # Create the photon operators
@@ -57,16 +55,18 @@ def cav_collapse_ops(kappa,atomStates):
 
     return c_op_list
 
-#cavity emission plotter with inputs:
-#ketbras: dictionary of ketbras of the atomic states
-#atomStates: list of atomic states as dict
-#output: output of the simulation
-#t_list: list of simulation time
-#angles_pol: list of angles for the cavity basis transformation
-#kappa: cavity decay rate
-#deltaP: detuning between the two cavity polarisation modes
+
 
 def plotter_cavemission( ketbras, atomStates, output, t_list, angles_pol,kappa,deltaP):
+    '''
+    cavity emission plotter with inputs:
+    ketbras: dictionary of ketbras of the atomic states
+    atomStates: list of atomic states as dict
+    output: output of the simulation
+    t_list: list of simulation time
+    angles_pol: list of angles for the cavity basis transformation
+    kappa: cavity decay rate
+    deltaP: detuning between the two cavity polarisation modes'''
     [alpha, beta, phi1, phi2] = angles_pol
     t=t_list
     output_states=output
