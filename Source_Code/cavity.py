@@ -5,6 +5,8 @@ from matplotlib import pyplot as plt
 
 def quant_axis_cavbasis_mapping(b_vec,cav_vec):
     #define the basis transformation between atomic polarisation basis (defined by quantisation axis, i.e. magnetic field direction) and cavity polarisation basis
+    #inputs: b_vec: three dimensional vector
+    # cav_vec: three dimensional vector
     #linear cavity basis is spanned by two vectors perpendicular to the cavity axis
     cav_pol_1=perpendicular_vector(cav_vec)
     cav_pol_2=np.cross(cav_pol_1,cav_vec)
@@ -23,13 +25,14 @@ def quant_axis_cavbasis_mapping(b_vec,cav_vec):
 
     return [cav_x_atom, cav_y_atom]
 
-#define cavity basis transformation used for the cavity emission plotter
 def cav_basis_trans(alpha, phi1, phi2):
+    #define cavity basis transformation used for the cavity emission plotter
+
     alpha=alpha
     beta=np.sqrt(1-alpha**2)
     phi1=phi1
     phi2=phi2
-    
+    #returns arguments of a 2x2 transformation matrix
     return ([alpha, beta, phi1, phi2])
 
 def cav_collapse_ops(kappa,atomStates):

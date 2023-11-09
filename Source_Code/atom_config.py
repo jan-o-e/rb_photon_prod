@@ -302,7 +302,6 @@ class rb_atom_config:
                 except KeyError:
                     pass
 
-
         spontDecayOps_d1 = []
 
         for xLev in spontEmmChannels_d1:
@@ -319,9 +318,6 @@ class rb_atom_config:
                                 basis(M, atomStates[xLev[0]]) * basis(M, atomStates[xLev[1]]).dag())
                 except KeyError:
                     pass
-
-
-    
 
         return ([spontDecayOps_d2,spontDecayOps_d1])
 
@@ -757,8 +753,7 @@ class rb_atom_config:
             bol_d1: boolean for whether to print the d1 or d2 excited state populations'''
         output_states=output
         t=t_list
-        tStep=(t[-1]-t[0])/(len(t)-1)
-
+        
         if bol_d1:
             [
                 ag1M, ag1, ag1P,
