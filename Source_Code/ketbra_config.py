@@ -101,27 +101,7 @@ class rb_atom_ketbras:
                 aOp =  None
             return aOp
 
-        [
-            ag1M, ag1, ag1P,
-            ag2MM, ag2M, ag2, ag2P, ag2PP,
-            ax0,
-            ax1M, ax1, ax1P,
-            ax2MM, ax2M, ax2, ax2P, ax2PP,
-            ax3MMM, ax3MM, ax3M, ax3, ax3P, ax3PP, ax3PPP,
-            ax1M_d1, ax1_d1, ax1P_d1,
-            ax2MM_d1, ax2M_d1, ax2_d1, ax2P_d1, ax2PP_d1
-        ]= [createStateOp(s) for s in self.totalstate_arr]
-
-        return [
-            ag1M, ag1, ag1P,
-            ag2MM, ag2M, ag2, ag2P, ag2PP,
-            ax0,
-            ax1M, ax1, ax1P,
-            ax2MM, ax2M, ax2, ax2P, ax2PP,
-            ax3MMM, ax3MM, ax3M, ax3, ax3P, ax3PP, ax3PPP,
-            ax1M_d1, ax1_d1, ax1P_d1,
-            ax2MM_d1, ax2M_d1, ax2_d1, ax2P_d1, ax2PP_d1
-        ]
+        return([createStateOp(s) for s in self.totalstate_arr])
     
 
 #returns a dictionary of ketbras from an excited state array and complete atomStates dictionary, faster is you use precomputed ketbras than rerunning the function get_ketbras
