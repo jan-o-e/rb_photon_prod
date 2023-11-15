@@ -18,6 +18,10 @@ class rb_atom_config:
     Note: By default the parameter file has the energy splitting given wrt the F'=2 level. 
     '''  
     def __init__(self, bfieldsplit:str, ketbras:rb_atom_ketbras):
+        '''configure the rb atom with a given magentic field and energy levels
+        input args:
+        bfieldsplit: the magnetic field splitting in MHz
+        ketbras: the ketbras object for the atom'''
         self.bfieldsplit=bfieldsplit
         self.ketbras = ketbras
         self.photonic_space = ketbras.photonicSpace
