@@ -1,6 +1,6 @@
 import csv
 import matplotlib.pyplot as plt
-from itertools import chain, product
+from itertools import chain
 import numpy as np
 from qutip import tensor, qeye, basis
 from ham_sim_source import couplingsToCavHamiltonian, couplingsToLaserHamiltonian
@@ -516,12 +516,12 @@ class rb_atom_config:
         ]    
 
     def gen_H_VSTIRAP_D1(self,ketbras, atomStates, delta_cav, delta_laser,F_start,F_final,F_exc,laser_pol, omega_s, driving_shape, shape_args, coupling_factor, deltaP, quant_bas):
-    #create Hamiltonian for V-STIRAP photon production w.r.t. D1 transitions
-    #arguments: 
-    # xlvls, atomStates - excited levels and ground states to be included in simulation
-    # delta, F_start, F_final, F_exc - detuning w.r.t. desired excited state (assuming two photon resonance condition for both laser and cavity), initial F level, final F level, and desired excited level F' w.r.t. adiabatic passage is performed
-    # laser_pol, omega_s, driving_shape, shape_args - polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string format, and dictionar list of required args for the driving pulse
-    # coupling_factor, deltaP, quant_axis - cavity coupling in angular frequeny with included CG coefficient for the required transition, cavity birefringence and cav basis vectors
+        '''create Hamiltonian for V-STIRAP photon production w.r.t. D1 transitions
+        input args: 
+        xlvls, atomStates: excited levels and ground states to be included in simulation
+        delta_cav,delta_laser, F_start, F_final, F_exc: detuning w.r.t. desired excited state (assuming two photon resonance condition for both laser and cavity), initial F level, final F level, and desired excited level F' w.r.t. adiabatic passage is performed
+        laser_pol, omega_s, driving_shape, shape_args: polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string format, and dictionar list of required args for the driving pulse
+        coupling_factor, deltaP, quant_bas: cavity coupling in angular frequeny with included CG coefficient for the required transition, cavity birefringence and basis for the quantisation axis and cavity axis'''
 
         args_hams_driving_pulse=shape_args
         quant_bas_x=quant_bas[0]
@@ -579,12 +579,12 @@ class rb_atom_config:
 
     
     def gen_H_VSTIRAP_D2(self, ketbras, atomStates, delta_cav,delta_laser,F_start,F_final,F_exc,laser_pol, omega_s, driving_shape, shape_args, coupling_factor, deltaP, quant_bas):
-    #create Hamiltonian for V-STIRAP photon production w.r.t. D2 transitions
-    #arguments: 
-    # xlvls, atomStates - excited levels and ground states to be included in simulation
-    # delta_cav,delta_laser, F_start, F_final, F_exc - detuning w.r.t. desired excited state (assuming two photon resonance condition for both laser and cavity), initial F level, final F level, and desired excited level F' w.r.t. adiabatic passage is performed
-    # laser_pol, omega_s, driving_shape, shape_args - polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string format, and dictionar list of required args for the driving pulse
-    # coupling_factor, deltaP, quant_bas - cavity coupling in angular frequeny with included CG coefficient for the required transition, cavity birefringence and basis for the quantisation axis and cavity axis
+        '''create Hamiltonian for V-STIRAP photon production w.r.t. D2 transitions
+        input args: 
+        xlvls, atomStates: excited levels and ground states to be included in simulation
+        delta_cav,delta_laser, F_start, F_final, F_exc: detuning w.r.t. desired excited state (assuming two photon resonance condition for both laser and cavity), initial F level, final F level, and desired excited level F' w.r.t. adiabatic passage is performed
+        laser_pol, omega_s, driving_shape, shape_args: polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string format, and dictionar list of required args for the driving pulse
+        coupling_factor, deltaP, quant_bas: cavity coupling in angular frequeny with included CG coefficient for the required transition, cavity birefringence and basis for the quantisation axis and cavity axis'''
 
         args_hams_driving_pulse=shape_args
         quant_bas_x=quant_bas[0]
@@ -637,11 +637,16 @@ class rb_atom_config:
     
 
     def gen_H_Pulse_D1(self,ketbras, atomStates, delta,F_start,F_exc,laser_pol, omega, shape_args, driving_shape='np.sin(w*t)**2', _array=False, _amp=[], _t=[]):
-        #create Hamiltonian for laser pulse w.r.t. D2 transitions
-        #arguments: 
-        # xlvls, atomStates - excited levels and ground states to be included in simulation
-        # delta, F_start, F_exc - detuning w.r.t. desired excited stat, initial F level and desired excited level F' 
-        # laser_pol, omega, driving_shape, shape_args - polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string format, and dictionar list of required args for the driving pulse
+        '''create Hamiltonian for laser pulse w.r.t. D1 transitions
+        input args: 
+        xlvls, atomStates: excited levels and ground states to be included in simulation
+        delta, F_start, F_exc: detuning w.r.t. desired excited stat, initial F level and desired excited level F' 
+        laser_pol, omega, driving_shape, shape_args: polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string
+        args_hams_driving_pulse:shape_args
+        _array: whether to use an array of amplitudes for the driving pulse
+        _amp: array of amplitudes for the driving pulse
+        _t: array of timesteps for the driving pulse array
+        '''
         args_hams_driving_pulse=shape_args
 
         delta_laser=delta    
@@ -672,12 +677,17 @@ class rb_atom_config:
     
 
     def gen_H_Pulse_D2(self,ketbras, atomStates, delta,F_start,F_exc,laser_pol, omega,shape_args, driving_shape='np.sin(w*t)**2',  _array=False, _amp=[], _t=[]):
-        #create Hamiltonian for laser pulse w.r.t. D1 transitions
-        #arguments: 
-        # xlvls, atomStates - excited levels and ground states to be included in simulation
-        # delta, F_start, F_exc - detuning w.r.t. desired excited stat, initial F level and desired excited level F' 
-        # laser_pol, omega, driving_shape, shape_args - polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string
-        # Create Hamiltonian terms for laser pulse w.r.t. d1 transitions, returns hamiltonian and hamiltonian arguments
+        '''create Hamiltonian for laser pulse w.r.t. D2 transitions
+        input args: 
+        xlvls, atomStates: excited levels and ground states to be included in simulation
+        delta, F_start, F_exc: detuning w.r.t. desired excited stat, initial F level and desired excited level F' 
+        laser_pol, omega, driving_shape, shape_args: polarisation of the laser is given as string 'sigmaP', 'sigmaM' or 'Pi', driving shape in qutip compatible string
+        args_hams_driving_pulse:shape_args
+        _array: whether to use an array of amplitudes for the driving pulse
+        _amp: array of amplitudes for the driving pulse
+        _t: array of timesteps for the driving pulse array
+        '''
+        
         args_hams_driving_pulse=shape_args
 
         delta_laser=delta    
@@ -707,7 +717,9 @@ class rb_atom_config:
 
         hams_laser, args_hams_laser = couplingsToLaserHamiltonian(ketbras, atomStates,self.photonic_space,laserCouplings_Pulse,omega,
                                                                                     driving_shape,  _array, _amp, _t)
-        return [hams_laser, args_hams_laser]
+        args_hams_laser_r={**args_hams_driving_pulse, **args_hams_laser}
+
+        return [hams_laser, args_hams_laser_r]
     
         
     def gen_H_OpticalPump_D2(self,ketbras, atomStates, delta1,delta2,F_start_1,F_start_2,F_exc_1,F_exc_2,laser_pol_1, laser_pol_2, omega1,omega2, driving_shape, shape_args):
@@ -718,6 +730,11 @@ class rb_atom_config:
 
 
     def plotter_spontdecay_channels(self, atomStates, output, t_list):
+        '''Returns plots of spontaneous emission rates for D1 and D2 lines
+            input args
+            atomStates: list of qutip states for the atom
+            output: output from numerical qutip solver for run of a particular hamiltonian
+            t_list: list of timesteps in the hamiltonian simulation'''
 
         output_states=output
         t=t_list
@@ -760,7 +777,7 @@ class rb_atom_config:
                 ag2MM, ag2M, ag2, ag2P, ag2PP,
                 ax1M_d1, ax1_d1, ax1P_d1,
                 ax2MM_d1, ax2M_d1, ax2_d1, ax2P_d1, ax2PP_d1
-            ] = self.ketbras.getrb_aList(ketbras)
+            ] = self.ketbras.getrb_aList(ketbras, 'd1')
 
             [exp_ax1M_d1,exp_ax1_d1,exp_ax1P_d1,
             exp_ax2MM_d1,exp_ax2M_d1,exp_ax2_d1,exp_ax2P_d1,exp_ax2PP_d1] = [
@@ -814,7 +831,7 @@ class rb_atom_config:
                 ax1M, ax1, ax1P,
                 ax2MM, ax2M, ax2, ax2P, ax2PP,
                 ax3MMM, ax3MM, ax3M, ax3, ax3P, ax3PP, ax3PPP
-            ] = self.ketbras.getrb_aList(ketbras)
+            ] = self.ketbras.getrb_aList(ketbras,'d2')
             [exp_ax0,
             exp_ax1,exp_ax1P,exp_ax1M,
             exp_ax2MM,exp_ax2M,exp_ax2,exp_ax2P,exp_ax2PP,

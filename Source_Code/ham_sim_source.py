@@ -14,6 +14,9 @@ def laserCoupling(photonicSpace:bool, ketbras, Omega,gLev,xLev,deltaL,args_list,
         deltaL - The detuning of the pump laser.
         args_list - A dictionary of arguments for the qutip simulation.
         pulseShape - The shape of the pump pulse.
+        array - Boolean to determine if the pulse envelope is an array of values or a string function.
+        amp_array - Array of amplitude timesteps for the pulse envelope.
+        t_array - Array of timesteps for the pulse envelope.
         
     Returns:
         (List of cython-ready Hamiltonian terms,
@@ -32,6 +35,7 @@ def laserCoupling(photonicSpace:bool, ketbras, Omega,gLev,xLev,deltaL,args_list,
             for i in range(len(t_array)):
                 output_array_plus[i]=amp_array[i]*np.exp(1j*deltaL*t_array[i])
                 output_array_minus[i]=amp_array[i]*np.exp(-1j*deltaL*t_array[i])
+
             #no arguments needed here so just return an empty args dictionary
             assert len(output_array_minus)==len(output_array_plus)==len(t_array)
             return (
@@ -61,16 +65,14 @@ def laserCoupling(photonicSpace:bool, ketbras, Omega,gLev,xLev,deltaL,args_list,
 
     else:
         if array:
-            #output_array_plus=np.empty(len(amp_array),dtype=complex)
-            #output_array_minus=np.empty(len(amp_array),dtype=complex)
             output_array_minus=[]
             output_array_plus=[]
             for i,t in enumerate(t_array):
-                #output_array_plus[i]=(amp_array[i]*np.exp(1j*deltaL*t))
-                #output_array_minus[i]=(amp_array[i]*np.exp(-1j*deltaL*t))
                 output_array_plus.append(amp_array[i]*np.exp(1j*deltaL*t))
                 output_array_minus.append(amp_array[i]*np.exp(-1j*deltaL*t))
+
             #no arguments needed here so just return an empty args dictionary
+            #assert array lengths match up
             assert len(output_array_minus)==len(output_array_plus)==len(t_array)
             return (
                                 [
