@@ -4,12 +4,20 @@ from qutip import tensor, basis
 
 class rb_atom_ketbras:
     def __init__(self, atomStates:dict, xlvls, photonicSpace:bool):
+        '''setup Hilbert space for rb atom
+        input args:
+        atomStates: dictionary of atomic states
+        xlvls: list of excited states
+        photonicSpace: boolean as to whether we want to include the photonic Hilbert space for the cavity'''
+        
         self.atomStates = atomStates
         self.xlvls = xlvls
         # Add the excited-states already configured.
         for k,v in zip(self.xlvls, range(len(self.atomStates), len(self.atomStates)+len(self.xlvls))):
             self.atomStates[k]=v
         self.totalstate_arr= ["g1M", "g1", "g1P", "g2MM", "g2M", "g2", "g2P", "g2PP"] + xlvls
+        self.totalstate_arr_d1=["g1M", "g1", "g1P", "g2MM", "g2M", "g2", "g2P", "g2PP", 'x1M_d1','x1_d1','x1P_d1','x2MM_d1','x2M_d1','x2_d1','x2P_d1','x2PP_d1']
+        self.totalstate_arr_d2=["g1M", "g1", "g1P", "g2MM", "g2M", "g2", "g2P", "g2PP",'x0','x1M','x1','x1P','x2MM','x2M','x2','x2P','x2PP','x3MMM', 'x3MM','x3M','x3','x3P','x3PP', 'x3PPP']
         self.totalstate_arr_a=['a' + item for item in self.totalstate_arr]
         #boolean as to whether we want to include the photonic Hilbert space
         self.photonicSpace = photonicSpace
@@ -19,14 +27,15 @@ class rb_atom_ketbras:
         M = len(self.atomStates) 
         return tensor(basis(M, self.atomStates[atom]))
  
-    #returns ket for a particular atomStates dictionary and input strings for the atomic and photonic states atom, cavX and cavY 
     def get_ket(self, atom, cavX, cavY):
+        '''returns ket for a particular atomStates dictionary and input strings for the atomic and photonic states atom, cavX and cavY'''
+
         #This defines where we truncate the Fock Space for the cavity
         N = 2
         return tensor(self.get_ket_atomic(atom), basis(N, cavX), basis(N, cavY))
 
-    #returns a dictionary of ketbras from an excited state array and complete atomStates dictionary
     def getrb_ketbras(self):
+        '''returns a dictionary of ketbras from an excited state array and complete atomStates dictionary'''
 
         if self.photonicSpace:
 
@@ -61,7 +70,11 @@ class rb_atom_ketbras:
 
 
     #faster if you use precomputed ketbras than rerunning the function get_ketbras
-    def getrb_aDict(self,ketbras):
+    def getrb_aDict(self,ketbras,d_line='both'):
+        '''returns a dictionary of atomic population operators from an excited state array and complete atomStates dictionary
+        input args:
+        ketbras: dictionary of ketbras from getrb_ketbras
+        d_line: 'both' for d1 and d2, 'd1' for d1 only, 'd2' for d2 only'''
 
         def kb(xLev,y):
             return ketbras[str([xLev,y])]
@@ -78,13 +91,24 @@ class rb_atom_ketbras:
                 aOp =  None
             return aOp
 
-        for s in self.totalstate_arr:
-            createStateOp(s)
+        if d_line=='both':
+            for s in self.totalstate_arr:
+                createStateOp(s)
+        elif d_line=='d1':
+            for s in self.totalstate_arr_d1:
+                createStateOp(s)
+        elif d_line=='d2':
+            for s in self.totalstate_arr_d2:
+                createStateOp(s)
 
         return aDict
 
 #get list of atomic population operators
-    def getrb_aList(self, ketbras):
+    def getrb_aList(self, ketbras, d_line='both'):
+        '''returns a list of atomic population operators from an excited state array and complete atomStates dictionary
+        input args:
+        ketbras: dictionary of ketbras from getrb_ketbras
+        d_line: 'both' for d1 and d2, 'd1' for d1 only, 'd2' for d2 only'''
 
         def kb(xLev,y):
             return ketbras[str([xLev,y])]
@@ -100,28 +124,14 @@ class rb_atom_ketbras:
             except KeyError:
                 aOp =  None
             return aOp
+        
+        if d_line=='both':
+            return([createStateOp(s) for s in self.totalstate_arr])
+        elif d_line=='d1':
+            return([createStateOp(s) for s in self.totalstate_arr_d1])
+        elif d_line=='d2':
+            return([createStateOp(s) for s in self.totalstate_arr_d2])
 
-        [
-            ag1M, ag1, ag1P,
-            ag2MM, ag2M, ag2, ag2P, ag2PP,
-            ax0,
-            ax1M, ax1, ax1P,
-            ax2MM, ax2M, ax2, ax2P, ax2PP,
-            ax3MMM, ax3MM, ax3M, ax3, ax3P, ax3PP, ax3PPP,
-            ax1M_d1, ax1_d1, ax1P_d1,
-            ax2MM_d1, ax2M_d1, ax2_d1, ax2P_d1, ax2PP_d1
-        ]= [createStateOp(s) for s in self.totalstate_arr]
-
-        return [
-            ag1M, ag1, ag1P,
-            ag2MM, ag2M, ag2, ag2P, ag2PP,
-            ax0,
-            ax1M, ax1, ax1P,
-            ax2MM, ax2M, ax2, ax2P, ax2PP,
-            ax3MMM, ax3MM, ax3M, ax3, ax3P, ax3PP, ax3PPP,
-            ax1M_d1, ax1_d1, ax1P_d1,
-            ax2MM_d1, ax2M_d1, ax2_d1, ax2P_d1, ax2PP_d1
-        ]
     
 
 #returns a dictionary of ketbras from an excited state array and complete atomStates dictionary, faster is you use precomputed ketbras than rerunning the function get_ketbras
@@ -163,6 +173,11 @@ class rb_atom_ketbras:
 
     #define function to recompute initial state from intermediary simulation run which take input as an output_states[-1] array from mesolve
     def recompute_psi(self,ketbras,input):
+        '''returns the new initial state from an intermediary simulation run
+        input args:
+        ketbras: dictionary of ketbras from
+        input: output_states[-1] array from mesolve
+        '''
         psiList=[]
         aDict=self.getrb_aDict(ketbras)
         arhoDict=self.getrb_arhoDict(ketbras)
