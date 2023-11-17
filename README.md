@@ -27,7 +27,23 @@ Included is an environment.yml file (for conda) as well as a docker image.
 
 # Installation Guide
 
-## Install local conda environment (for more flexibility)
+## Install local poetry environment (recommended)
+
+Follow these steps to create a poetry environment for this project (deps specified for Python 3.8):
+Poetry can be installed as documented [here](https://python-poetry.org/docs/).
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/jan-o-e/rb_photon_prod
+   cd rb_photon_prod
+2. **Setup poetry environment (make sure poetry is installed):**
+   ```bash
+   poetry install
+3. **Activate poetry shell:**
+   ```bash
+   poetry shell
+
+## Install local conda environment
 
 Follow these steps to create a conda environment for this project:
 
