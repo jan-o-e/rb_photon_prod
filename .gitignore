@@ -3,4 +3,6 @@
 .vscode/settings.json
 .DS_Store
 .conda
+poetry.lock
+
 
