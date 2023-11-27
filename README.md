@@ -68,3 +68,7 @@ docker pull ghcr.io/jan-o-e/rb_photon_prod:main
 ```
 
 In case of suggestions, suspected errors or enquiries please get in touch with me at jan.ernst@physics.ox.ac.uk, or submit a pull request.
+
+## References
+
+Jan Ole Ernst et al 2023 J. Phys. B: At. Mol. Opt. Phys. 56 205003
