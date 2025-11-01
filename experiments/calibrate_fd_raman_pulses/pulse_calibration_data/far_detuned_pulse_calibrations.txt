@@ -1,0 +1,70 @@
+rotation_configs = {
+    1: {
+        "cg_1": rb_atom.CG_d1g2x1,
+        "pol_1": "pi",
+        "det_zeeman_1": 0,
+        "cg_2": rb_atom.CG_d1g1Mx1,
+        "pol_2": "sigmaP",
+        "det_zeeman_2": -rb_atom.deltaZ,
+        "psi_0": kb_class.get_ket_atomic('g2'),
+        "psi_des": 1 / np.sqrt(2) * (kb_class.get_ket_atomic('g1M') - kb_class.get_ket_atomic('g2')),
+        "coherence_indices": [0, 5],
+        "det_centre": -100000,
+        "rise_time": 0.025,
+        "amp_scaling":1.65587099,
+        "pulse_length":0.125 ,
+        "rel_phase": 1.595729601823387
+    },
+
+    2: {
+        "cg_1": rb_atom.CG_d1g2x1,
+        "pol_1": "pi",
+        "det_zeeman_1": 0,
+        "cg_2": rb_atom.CG_d1g1Px1,
+        "pol_2": "sigmaM",
+        "det_zeeman_2": rb_atom.deltaZ,
+        "psi_0": 1 / np.sqrt(2) * (kb_class.get_ket_atomic('g2') - kb_class.get_ket_atomic('g2MM')),
+        "psi_des": 1 / np.sqrt(2) * (kb_class.get_ket_atomic('g1P') - kb_class.get_ket_atomic('g2MM')),
+        "coherence_indices": [2, 3],
+        "det_centre": -100000,
+        "rise_time": 0.025,
+        "amp_scaling":2.21831585,
+        "pulse_length":0.125,
+        "rel_phase": 3.9893240045584677
+
+    },
+    3: {
+        "cg_1": rb_atom.CG_d1g2MMx2MM,
+        "pol_1": "pi",
+        "det_zeeman_1": 0,
+        "cg_2": rb_atom.CG_d1g1Mx2MM,
+        "pol_2": "sigmaM",
+        "det_zeeman_2": -np.pi * rb_atom.deltaZ,
+        "psi_0": 1 / np.sqrt(2) * (kb_class.get_ket_atomic('g2MM') - kb_class.get_ket_atomic('g2PP')),
+        "psi_des": 1 / np.sqrt(2) * (kb_class.get_ket_atomic('g1M') - kb_class.get_ket_atomic('g2PP')),
+        "coherence_indices": [0, 7],
+        "det_centre": -100000,
+        "rise_time":  0.025,
+        "amp_scaling": 1.52701423,
+        "pulse_length": 0.25,
+        "rel_phase": 4.687455705356199
+
+    },
+    4: {
+        "cg_1": rb_atom.CG_d1g2PPx2PP,
+        "pol_1": "pi",
+        "det_zeeman_1": 0,
+        "cg_2": rb_atom.CG_d1g1Px2PP,
+        "pol_2": "sigmaP",
+        "det_zeeman_2": np.pi * rb_atom.deltaZ,
+        "psi_0": 1 / np.sqrt(2) * (kb_class.get_ket_atomic('g2MM') - kb_class.get_ket_atomic('g2PP')),
+        "psi_des": 1 / np.sqrt(2) * (kb_class.get_ket_atomic('g1P') - kb_class.get_ket_atomic('g2MM')),
+        "coherence_indices": [2, 3],
+        "det_centre": -100000,
+        "rise_time": rise_time,
+        "amp_scaling": 1.52701423,
+        "pulse_length": 0.25,
+        "rel_phase": 4.687455705356199
+
+    }
+}

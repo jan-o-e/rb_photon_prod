@@ -1,74 +1,246 @@
 # rb_photon_prod
-[![Docker](https://github.com/jan-o-e/rb_photon_prod/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/jan-o-e/rb_photon_prod/actions/workflows/docker-publish.yml)
 
-[![Generic badge](https://img.shields.io/badge/arXiv-2305.04899-<COLOR>.svg)](https://arxiv.org/abs/2305.04899)
+[![arXiv](https://img.shields.io/badge/arXiv-2305.04899-b31b1b.svg)](https://arxiv.org/abs/2305.04899)
+[![DOI](https://img.shields.io/badge/DOI-10.1088%2F1361--6455%2Facf79e-blue.svg)](https://doi.org/10.1088/1361-6455/acf79e)
 
-[![DOI](https://zenodo.org/badge/679003178.svg)](https://zenodo.org/badge/latestdoi/679003178)
+## Overview
 
-This respository has two parts: A [generalised simulation toolbox](./Source_Code) for atom-laser-cavity interactions with single Rb^87 atoms for Quantum Infrmation Processing and [data](./Plots) accompanying the paper describing an ideal photon burst productions scheme. All the results presented in Ernst et. al. *"Bursts of Polarised Photons from Atom-Cavity Sources"* can be produced with the generalised simulation toolbox. The code has been organised into several classes and files for various parts of the simulation, view the General_Rb_Simulator.ipynb for an example of how to simulate a particular sequence (namely the ideal one documented in the paper), but feel free to construct your own notebooks for your own purposes.
+Atom-cavity systems provide robust platforms for quantum information processing, offering strong light-matter coupling and efficient photon collection. This repository presents a generalised simulation toolbox for modeling atom-laser-cavity interactions with single Rb⁸⁷ atoms, specifically designed for investigating photon generation schemes.
 
-The code presented here was inspired by the original [rb_cqed package for modelling cavity-QED](https://github.com/tomdbar/rb-cqed), the Mathematica scripts used for calculating the Clebsch-Gordan Coefficients and energy level splittings are taken from there and some functions are adapted or taken straight from that repository too - if you will - view is as rbcqedv2.
+The simulation framework enables comprehensive modeling of cavity quantum electrodynamics (cQED) experiments, including full hyperfine structure, arbitrary pulse sequences, spontaneous emission, and photon correlation functions. This toolbox was developed to explore optimal schemes for generating bursts of polarised single photons from atom-cavity sources, as well as investigating the generation of time-bin entangled photonic states.
 
-To run virtual experiments with Rb requires the following:
-<details>
-<summary>📦 Package Requirements</summary>
-   
-- qutip==4.7.0
-- python==3.6+
-- numpy==1.16+
-- scipy==1.0+
-- matplotlib==1.2.1++
-- cython==0.29.20, <30.0.0
-- C++ compiler (for mac install the xcode command line tools: xcode-select --install)
-- ipython==8+
-</details>
+All results presented in Ernst et al. *"Bursts of Polarised Photons from Atom-Cavity Sources"* (J. Phys. B: At. Mol. Opt. Phys. **56** 205003, 2023) as well as *Controlling Quantum Systems at the Pulse Level: Cavity QED & Beyond* can be reproduced using this simulation toolbox. The code has been organised into modular classes and functions for different aspects of the simulation, making it straightforward to construct custom pulse sequences and explore novel quantum protocols.
 
-Included is an environment.yml file (for conda) as well as a docker image.
+The code presented here was inspired by the original [rb_cqed package for modelling cavity-QED](https://github.com/tomdbar/rb-cqed). The Mathematica scripts used for calculating Clebsch-Gordan coefficients and energy level splittings are adapted from that repository—consider this as rb_cqed v2.
 
 # Installation Guide
 
-## Install local poetry environment (recommended)
+## Install using UV (recommended)
 
-Follow these steps to create a poetry environment for this project (deps specified for Python 3.8):
-Poetry can be installed as documented [here](https://python-poetry.org/docs/).
+[UV](https://docs.astral.sh/uv/) is a fast, modern Python package and project manager written in Rust. It provides significantly faster dependency resolution and installation compared to traditional tools.
 
-1. **Clone the Repository:**
+1. **Install UV:**
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+   Or on macOS/Linux with Homebrew:
+   ```bash
+   brew install uv
+   ```
+
+2. **Clone the Repository:**
    ```bash
    git clone https://github.com/jan-o-e/rb_photon_prod
    cd rb_photon_prod
-2. **Setup poetry environment (make sure poetry is installed):**
+   ```
+
+3. **Create and sync virtual environment:**
    ```bash
-   poetry install
-3. **Activate poetry shell:**
+   uv sync
+   ```
+   This command automatically creates a virtual environment (`.venv`), installs all dependencies specified in `pyproject.toml`, and generates a `uv.lock` file for reproducible builds.
+
+4. **Activate the virtual environment:**
    ```bash
-   poetry shell
+   source .venv/bin/activate  # On macOS/Linux
+   # or
+   .venv\Scripts\activate  # On Windows
+   ```
 
-## Install local conda environment
-
-Follow these steps to create a conda environment for this project:
-
-1. **Clone the Repository:**
+5. **Install development dependencies (optional):**
    ```bash
-   git clone https://github.com/jan-o-e/rb_photon_prod
-   cd rb_photon_prod
-2. **Setup conda environment:**
-   ```bash
-   conda env create -f environment.yml
-3. **Activate conda environmen:**
-   ```bash
-   conda activate rb_photon_prod
+   uv sync --group dev
+   ```
 
-Note that this was tested on a Mac with M1 Apple Silicon chip and I have seen some dependency issues when using the older Macs or other operating systems. You can alternatively follow the [qutip installation guide](https://qutip.org/docs/latest/installation.html) and also install matplotlib, cython (important caveat: [cython version compatibility](https://github.com/qutip/qutip/issues/2198) ) and notebook (jupyter notebook) with a package manager of your choice.
+**UV Commands Reference:**
+- `uv sync` - Install/update dependencies and sync environment
+- `uv add <package>` - Add a new dependency
+- `uv remove <package>` - Remove a dependency
+- `uv pip install <package>` - Install package using pip (legacy mode)
+- `uv run <command>` - Run a command in the virtual environment without activation
 
-## Run docker container (recommended to avoid dependency issues)
+# Repository Structure
 
-Ther is also a [docker image](https://github.com/jan-o-e/rb_photon_prod/pkgs/container/rb_photon_prod), to install this image locally run:
+## Directory Overview
+
+### `src/`
+Core simulation modules and example notebooks:
+- `modules/` - Main simulation library containing:
+  - `simulation.py` - Core `Simulation` class for atom-cavity dynamics
+  - `atom_config.py` - Rb⁸⁷ atomic structure with hyperfine levels and Clebsch-Gordan coefficients
+  - `ketbra_config.py` - Hilbert space basis states and ket-bra operators
+  - `cavity.py` - Cavity mode operators and collapse operators
+  - `ham_sim_source.py` - Hamiltonian construction for cavity, laser, and Raman interactions
+  - `laser_pulses.py` - Pulse shape functions and Rabi-to-power conversions
+  - `differential_light_shifts.py` - AC Stark shift calculations for D1/D2 transitions
+  - `photon_correlation_calc.py` - Multi-photon correlation function calculations (g⁽ⁿ⁾)
+  - `photon_correlation_utils.py` - Utilities for correlation analysis and visualisation
+  - `correlation_functions.py` - Time-dependent correlation function evaluators
+  - `integration_functions.py` - Numerical integration for complex-valued functions
+  - `tensor_functions.py` - Custom tensor operators for composite Hilbert spaces
+  - `vector_functions.py` - Vector algebra for polarisation and geometry
+- `CQED_Rb_Simulator.ipynb` - Main demonstration notebook for general simulations
+- `Photon_Correlation_Example_Calc_n1.ipynb` - Example single-photon correlation calculation
+- `FarDetuned_Raman.ipynb` - Far-detuned Raman transition analysis
+- `tests/` - Unit tests for core functionality
+
+### `experiments/`
+Various experiments:
+- `calibrate_fd_raman_pulses/` - Far-detuned Raman pulse calibration
+- `fullsimulation/` - Complete end-to-end simulations
+- `stirap_rotations/` - STIRAP (Stimulated Raman Adiabatic Passage) pulse optimisations
+- `vstirap/` - Variable-STIRAP protocols for photon generation
+
+### `run_correlation_calc/`
+Production scripts for running photon correlation calculations:
+- Parameter sweep scripts for n=1, n=2, and n=3 photon generation
+- Magnetic field, detuning, and pulse shape optimisation studies
+- Cluster-ready variants for high-performance computing environments
+
+### `saved_data_bursts/`
+Storage for photon burst simulation results and output data.
+
+### `saved_data_timebin/`
+Storage for time-bin encoded photon simulation results and correlation data.
+
+## Running Scripts
+
+To run any of the scripts in the repo, navigate to the repo directory and run the script as a module:
 ```bash
-docker pull ghcr.io/jan-o-e/rb_photon_prod:main
+cd rb_photon_prod
+python -m src.{foldername}.{filename}
 ```
 
-In case of suggestions, suspected errors or enquiries please get in touch with me at jan.ernst@physics.ox.ac.uk, or submit a pull request.
+# Running Photon Correlation Calculations
+
+The `run_correlation_calc/` directory contains production-ready scripts for calculating photon correlation functions (g⁽²⁾(τ)) and analyzing multi-photon generation schemes.
+
+Two very useful references to understand these calculations are Bauch, David, et al. "Time-bin entanglement in the deterministic generation of linear photonic cluster states." APL Quantum 1.3 (2024) and Tóth, Géza, and Otfried Gühne. "Detecting genuine multipartite entanglement with two local measurements." Physical review letters 94.6 (2005): 060501.
+
+
+## Available Correlation Scripts
+
+### Single Photon (n=1)
+- `run_n1_correlation_calc_single.py` - Single parameter set calculation
+- `run_n1_b_field_sweep.py` - Sweep over magnetic field strengths
+- `run_n1_bfield_det_sweep.py` - B-field and detuning grid sweep
+- `run_n1_omega_len_vst_sweep.py` - Rabi frequency and pulse length optimisation
+- `run_n1_omega_rot_grid_sweep.py` - Rotation angle grid sweep
+- `run_n1_omeg_vst_shape_sweep.py` - Pulse shape comparison
+- `run_n1_two_phot_det_sweep.py` - Two-photon detuning sweep
+
+### Two Photon (n=2)
+- `run_n2_correlation_single.py` - Single two-photon calculation
+- `run_n2_b_field_sweep.py` - B-field optimisation for n=2
+- `run_n2_omega_early_omega_late_sweep.py` - Early/late pulse Rabi frequency sweep
+- `run_n2_omega_stirap_grid_sweep.py` - STIRAP parameter optimisation
+- `run_n2_two_phot_det_sweep.py` - Two-photon detuning effects
+
+### Three Photon (n=3)
+- `run_n3_correlation_calc_single.py` - Three-photon correlation calculation
+
+### Cluster State Calculation (WIP)
+- `run_correlation_calc_cluster.py`
+- `run_n1_correlation_calc_cluster.py`
+
+## Output
+
+Results are saved to:
+- `saved_data_timebin/photon_correlations/` - Time-bin correlation data
+- `saved_data_bursts/` - Burst generation analysis
+
+Output includes:
+- Correlation functions g⁽ⁿ⁾(τ₁, τ₂, ...)
+- Photon emission statistics
+- Density matrix evolution
+- Visualisation plots (if `_plot=True`)
+
+## Example Notebooks
+
+For interactive exploration:
+- [Photon_Correlation_Example_Calc_n1.ipynb](src/Photon_Correlation_Example_Calc_n1.ipynb) - Guided single-photon correlation analysis
+- [CQED_Rb_Simulator.ipynb](src/CQED_Rb_Simulator.ipynb) - General simulation examples
+- [FarDetuned_Raman.ipynb](src/FarDetuned_Raman.ipynb) - Simulation example for far detuned Raman pulses
+
+# Code Quality and Formatting
+
+This project uses modern Python tooling for code quality and consistency.
+
+## Formatting with Black and Ruff
+
+The codebase follows strict formatting standards enforced by:
+- **[Black](https://black.readthedocs.io/)** - Opinionated code formatter ensuring consistent style
+- **[Ruff](https://docs.astral.sh/ruff/)** - Fast Python linter covering hundreds of rules (replaces flake8, isort, etc.)
+
+### Manual Formatting
+
+Format code manually with:
+
+```bash
+# Format all Python files with Black
+black .
+
+# Run Ruff linter
+ruff check .
+
+# Auto-fix Ruff issues where possible
+ruff check --fix .
+```
+
+### Development Dependencies
+
+Install formatting tools with UV:
+
+```bash
+uv sync --group dev
+```
+
+This installs:
+- `black>=24.0.0`
+- `ruff>=0.6.0`
+- `pytest>=8.4.2`
+
+### Pre-commit Hooks
+
+While this repository doesn't currently have a `.pre-commit-config.yaml` file configured, you can set up pre-commit hooks to automatically format code before each commit:
+
+1. **Install pre-commit:**
+   ```bash
+   uv pip install pre-commit
+   ```
+
+2. **Create `.pre-commit-config.yaml`:**
+   ```yaml
+   repos:
+     - repo: https://github.com/psf/black
+       rev: 24.0.0
+       hooks:
+         - id: black
+           language_version: python3.10
+
+     - repo: https://github.com/astral-sh/ruff-pre-commit
+       rev: v0.6.0
+       hooks:
+         - id: ruff
+           args: [--fix]
+         - id: ruff-format
+   ```
+
+3. **Install the hooks:**
+   ```bash
+   pre-commit install
+   ```
+
+Now Black and Ruff will automatically run on staged files before each commit, ensuring code quality standards are maintained.
+
+## Contributing
+
+Please submit a PR if you are interested in contributing and submit an issue if you find any errors.
+
+I always wanted to modularise this for different atomic species but never got round to it.
 
 ## References
 
-Jan Ole Ernst et al 2023 J. Phys. B: At. Mol. Opt. Phys. 56 205003
+Jan Ole Ernst et al 2023 J. Phys. B: At. Mol. Opt. Phys. **56** 205003
+
+Jan Ole Ernst. *Controlling Quantum Systems at the Pulse Level: Cavity QED & Beyond*. 2025. PhD Thesis (forthcoming). University of Oxford
