@@ -1,0 +1,341 @@
+Template:
+{
+    "param_1": ,
+    "laser_amplitude": ,
+    "detuning": ,
+    "duration": ,
+    "detuning_magn": ,
+    "pulse_shape": "",
+    "rotation_number": 
+}
+score = 
+
+external magn field of 0.1:
+{
+    'param_1': 0.7839714931217576,
+    'laser_amplitude': 499.71937909782446,
+    'detuning': -36.85474412010291,
+    'duration': 0.2,      
+    'detuning_magn': 1,
+    '_n': 'N/A',
+    'pulse_shape': 'fstirap',
+    'rotation_number': 1
+}
+score ~ 0.985
+
+{
+    'param_1': 62.01914183096527,
+    'laser_amplitude': 999.9283935630219,
+    'detuning': -59.49884777653568,
+    'duration': 0.15006148513696485,      
+    'detuning_magn': 1,
+    '_n': 5.0,
+    '_c': 0.05,
+    'pulse_shape': 'masked',
+    'rotation_number': 2
+}
+score ~ 0.867
+
+{
+    'param_1': 0.6800409937877967,
+    'laser_amplitude': 874.5719625777683,
+    'detuning': -4.953182517935147,
+    'duration': 0.49941196321866,      
+    'detuning_magn': 1,
+    '_n': 4,
+    '_c': 0.16647065440622,
+    'pulse_shape': 'fstirap',
+    'rotation_number': 2
+}
+score ~ 0.8
+
+
+{    
+    'param_1': 8.29360665736653,
+    'laser_amplitude': 736.0545582801809,
+    'detuning': -1.1624570212879348,
+    'duration': 0.22972618744281995,      
+    'detuning_magn': 1,
+    '_n': 4,
+    '_c': 0.07657539581427332,
+    'pulse_shape': 'masked',
+    'rotation_number': 2
+}
+score ~ 0.98
+
+
+{
+    'param_1': 9.429075919514098,
+    'laser_amplitude': 999.726287291774,
+    'detuning': -5.689821336071191,
+    'duration': 0.15000188957435814,      
+    'detuning_magn': 1,
+    '_n': 2.0,
+    '_c': 0.05,
+    'pulse_shape': 'masked',
+    'rotation_number':3
+}
+score ~ 0.987
+
+{
+    'param_1': 10.920969597151167,
+    'laser_amplitude': 999.7450711516937,
+    'detuning': -9.597918478739587,
+    'duration': 0.24353624783950667,      
+    'detuning_magn': 1,
+    '_n': 4,
+    '_c': 0.08117874927983555,
+    'pulse_shape': 'masked',
+    'rotation_number': 3
+}
+score ~ 0.988
+
+{
+    'param_1': 24.45289691331748,
+    'laser_amplitude': 999.9056228762507,
+    'detuning': -36.796328917014705,
+    'duration': 0.29990735757069886,      
+    'detuning_magn': 1,
+    '_n': 2.0,
+    '_c': 0.05,
+    'pulse_shape': 'masked',
+    'rotation_number': 4
+}
+score ~ 0.996
+
+{
+    'param_1': 13.673962000631235,
+    'laser_amplitude': 684.4677162591616,
+    'detuning': -285.43060324010116,
+    'duration': 0.4901213644201417,      
+    'detuning_magn': 1,
+    '_n': 4,
+    '_c': 0.16337378814004724,
+    'pulse_shape': 'masked',
+    'rotation_number': 4
+}
+score ~ 0.998
+
+
+
+
+#######     THESE RESULTS WERE CALCULATED BEFORE ERROR IN COUPLING WAS CORRECTED
+External magnetic field of 0.1 results:
+
+{
+    'param_1': 0.8220781266834232,
+    'laser_amplitude': 118.05507234825893,
+    'detuning': -25.52513469614979,
+    'duration': 0.2,      
+    'detuning_magn': 1,
+    '_n': N/A,
+    'pulse_shape':'fstirap',
+    'rotation_number': 1
+}
+score ~ 0.977
+
+{
+    'param_1': 49.84046212641756,
+    'laser_amplitude': 305.10568423843824,
+    'detuning': -1.0111769839944316,
+    'duration': 0.18156145711921845,      
+    'detuning_magn': 1.193167420844426,
+    '_n': 8.0,
+    'pulse_shape': 'masked',
+    'rotation_number': 2
+}
+score ~ 0.93 might need to reduce n for it to be physical.
+
+
+{
+    'param_1': 49.99067958033535,
+    'laser_amplitude': 319.7897086777784,
+    'detuning': -1.001715742343066,
+    'duration': 0.2,      
+    'detuning_magn': 1,
+    '_n': 7.0,
+    'pulse_shape': 'masked',
+    'rotation_number': 2
+}
+score ~ 0.919 again n too high
+
+{    
+    'param_1': 67.38851950217311,
+    'laser_amplitude': 279.1810240437403,
+    'detuning': -3.901620913810632,
+    'duration': 0.15131996064980674,      
+    'detuning_magn': 1,
+    '_n': 6.0,
+    'pulse_shape': 'masked',
+    'rotation_number':2
+}
+score ~ 0.921
+
+{
+    'param_1': 15.231640452544472,
+    'laser_amplitude': 388.37952069005956,
+    'detuning': -1.7517867855551401,
+    'duration': 0.2,      
+    'detuning_magn': 1,
+    '_n': 2.0,
+    'pulse_shape': 'masked',
+    'rotation_number': 3
+}
+score ~ 0.989
+
+{
+    'param_1': 13.742068240539059,
+    'laser_amplitude': 499.7108294219002,
+    'detuning': -282.97434196042036,
+    'duration': 0.2,      
+    'detuning_magn': 1,
+    '_n': 3.0,
+    'pulse_shape': 'masked',
+    'rotation_number': 4
+}
+score ~ 0.995
+
+
+
+
+Results w no magn field:
+
+
+{
+    'param_1': 0.5797764297008392,
+    'laser_amplitude': 70.40987324433638,
+    'detuning': -8.53431214386373,
+    'duration': 0.29722896376371916,      
+    'detuning_magn': 1.0376503972552957,
+    'pulse_shape': 'fstirap',
+    'rotation_number': 1
+}
+score = 0.98, this is good!
+
+
+{
+    'param_1': 67.77846582645783,
+    'laser_amplitude': 248.52043477347385,
+    'detuning': -5.8557868371480595,
+    'duration': 0.16681488472520653,      
+    'detuning_magn': 0.7168126622827355,
+    '_n': 17,
+    'pulse_shape':'masked',
+    'rotation_number':2
+}
+score = 0.91, not so great:(
+
+
+{
+    'param_1': 9.89586167133622,
+    'laser_amplitude': 199.88748679667336,
+    'detuning': -0.3163589865112044,
+    'duration': 0.150123514305199,      
+    'detuning_magn': 1.155809834727601,
+    '_n': 3,
+    'pulse_shape':'masked',
+    'rotation_number': 3
+}
+score = 0.97
+
+{
+    'param_1': 15.847982052200534,
+    'laser_amplitude': 199.32758063933073,
+    'detuning': -0.43361711065983854,
+    'duration': 0.23457462430036918,      
+    'detuning_magn': 1.0275030464021828,
+    '_n': 3.0,
+    'pulse_shape':'masked',
+    'rotation_number': 4
+}
+score=0.97
+
+{
+    'param_1': 42.79308568945804,
+    'laser_amplitude': 299.5670961514428,
+    'detuning': -0.5866425154706292,
+    'duration': 0.1636094551689073,      
+    'detuning_magn': 0.9785687499149918,
+    '_n': 10.0,
+    'pulse_shape':'masked',
+    'rotation_number': 2
+}
+score=0.93937
+
+
+
+
+
+
+
+Not correct anymore:
+_______________________________________________________
+
+{
+    'param_1': 1.69145036e-01, 
+    'laser_amplitude': 7.46579005e+01, 
+    'detuning': -7.14964943e+02, 
+    'duration': 4.72053440e-01, 
+    'detuning_magn': 1.58718268e+00,
+    "pulse_shape":"fstirap",
+    "rotation_number":1
+}
+0.9575256699532678
+
+
+{
+    "param_1": 2.558e-01,
+    "laser_amplitude": 1.089e+02,
+    "detuning":-7.437e+02,
+    "duration": 2.125e-01,
+    "detuning_magn": 9.775e-01,
+    "pulse_shape":"fstirap",
+    "rotation_number": 1
+}
+score = 0.9628124092322554
+
+{
+    "param_1": 2.04044399e-01,
+    "laser_amplitude": 1.17221211e+02,
+    "detuning": -6.57392734e+02,
+    "duration": 2.33340247e-01,
+    "detuning_magn": 1.49590201e+00,
+    "pulse_shape": "fstirap",
+    "rotation_number": 1
+}
+score = 0.9796931148090973
+
+
+
+{
+    "param_1": 2.01320556e-02,
+    "laser_amplitude": 1.39254773e+02,
+    "detuning": -1.49668643e+02,
+    "duration": 2.00748303e-01,
+    "detuning_magn": 7.24660364e-01,
+    "pulse_shape": "fstirap"
+    "rotation_number": 2
+}
+score = 0.8771919090913206
+
+{
+    "param_1": 5.297e-01,
+    "laser_amplitude": 1.499e+02,
+    "detuning": -6.701e+02,
+    "duration": 2.585e-01,
+    "detuning_magn": 1.498e+00,
+    "pulse_shape": "fstirap"
+    "rotation_number": 3
+}
+score = TBD
+
+{
+    "param_1": 0.69353941,
+    "laser_amplitude": 112.70475563,
+    "detuning": -225.083914,
+    "duration": 0.32199683,
+    "detuning_magn": 1.00426177,
+    "pulse_shape": "fstirap"
+    "rotation_number": 4
+}
+score = 0.9478854835087853

@@ -1,21 +1,30 @@
-[tool.poetry]
+[project]
 name = "rb-simulator"
 version = "0.1.0"
 description = "Simulating cavity QED experiments with Rb atoms"
-authors = ["Jan Ole Ernst"]
-license = "MIT"
+authors = [{name = "Jan Ole Ernst"}]
+license = {text = "MIT"}
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.8"
-qutip = "4.7.0"
-numpy = "^1.16"
-scipy = "^1.0"
-matplotlib = "^3.5.1"
-cython = "0.29.20"
-notebook = "^7.0.6"
-
+requires-python = ">=3.10"
+dependencies = [
+    "qutip>=5.0.0",
+    "numpy>=1.16",
+    "scipy>=1.0",
+    "matplotlib>=3.5.1",
+    "notebook>=7.0.6",
+    "sympy>=1.12",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/modules"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+    "black>=24.0.0",
+    "ruff>=0.6.0",
+]

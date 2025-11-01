@@ -1,0 +1,73 @@
+Template:
+{
+    "param_1": ,
+    "laser_amplitude": ,
+    "detuning": ,
+    "duration": ,
+    "detuning_magn": ,
+    "pulse_shape": "",
+    "rotation_number": 
+}
+score = 
+
+##USED MAGNETIC FIELD OF 0.07 MHZ GS SPLITTING WHICH CORRESPONDS TO 100mG as in Thomas et. al.
+{
+    "param_1": 0.7293,
+    "laser_amplitude": 5.734e+02,
+    "detuning": -3.792e+01,
+    "duration": 0.1603,
+    "detuning_magn": 1,
+    "pulse_shape": "fstirap",
+    "rotation_number":1
+}
+score=0.989
+
+{
+    "param_1":  5.906e+00,
+    "laser_amplitude": 8.796e+02,
+    "detuning": -1.870e+00,
+    "duration": 0.25,
+    "detuning_magn": 1,
+    "n" = 6,
+    "pulse_shape": "masked",
+    "rotation_number":2
+}
+score=0.956
+
+{
+    "param_1":   10.32611058680373,
+    "laser_amplitude": 754.1772283803055,
+    "detuning": -1.3177928786079605,
+    "duration": 0.25,
+    "detuning_magn": 1,
+    "n" = 2,
+    "pulse_shape": "masked",
+    "rotation_number":2
+}
+score=0.985
+
+{
+    "param_1": 14.92,
+    "laser_amplitude": 1459,
+    "detuning": -33.82,
+    "duration": 0.25,
+    "detuning_magn": 1,
+    "n" = 6,
+    "pulse_shape": "masked",
+    "rotation_number":3
+}
+score=0.99044
+
+{
+    "param_1": 14.53,
+    "laser_amplitude": 1139,
+    "detuning": -40.28,
+    "duration": 0.25,
+    "detuning_magn": 1,
+    "n" = 6,
+    "pulse_shape": "masked",
+    "rotation_number":4
+}
+score=0.9948
+
+
