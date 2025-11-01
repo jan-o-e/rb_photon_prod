@@ -148,7 +148,9 @@ class TestN1CorrelationCalc:
             print("\n" + "=" * 60)
             print("REGRESSION CHECK PASSED")
             print("=" * 60)
-            print("Matrix values match reference within tolerance (rtol=2e-4, atol=1e-8)")
+            print(
+                "Matrix values match reference within tolerance (rtol=2e-4, atol=1e-8)"
+            )
             print("=" * 60 + "\n")
 
         else:
