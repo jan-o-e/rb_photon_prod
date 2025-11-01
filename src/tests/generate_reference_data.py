@@ -12,10 +12,10 @@ import numpy as np
 from itertools import chain
 from qutip import mesolve
 
-from src.modules.atom_config import RbAtom
-from src.modules.cavity import cav_collapse_ops, quant_axis_cavbasis_mapping
-from src.modules.ketbra_config import RbKetBras
-from src.modules.laser_pulses import create_flattop_blackman
+from modules.atom_config import RbAtom
+from modules.cavity import cav_collapse_ops, quant_axis_cavbasis_mapping
+from modules.ketbra_config import RbKetBras
+from modules.laser_pulses import create_flattop_blackman
 
 
 def generate_general_rb_simulator_reference():

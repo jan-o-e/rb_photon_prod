@@ -14,14 +14,14 @@ from scipy import interpolate
 from scipy.integrate import trapezoid
 from qutip import mesolve, tensor, qeye, destroy, expect
 
-from src.modules.cavity import cav_collapse_ops
-from src.modules.simulation import Simulation
-from src.modules.correlation_functions import (
+from modules.cavity import cav_collapse_ops
+from modules.simulation import Simulation
+from modules.correlation_functions import (
     exp_eval_fixed_start,
     rho_evo_fixed_start,
     rho_evo_floating_start_finish,
 )
-from src.modules.integration_functions import trapz_integral_real_imaginary
+from modules.integration_functions import trapz_integral_real_imaginary
 
 
 # Define the ground states

@@ -1,8 +1,8 @@
 from scipy.signal.windows import blackman
 
-from src.modules.atom_config import RbAtom
-from src.modules.ketbra_config import RbKetBras
-from src.modules.differential_light_shifts import DifferentialStarkShifts
+from modules.atom_config import RbAtom
+from modules.ketbra_config import RbKetBras
+from modules.differential_light_shifts import DifferentialStarkShifts
 
 # Define the atom and ketbra objects
 # List the groundstates to be included in the simulation

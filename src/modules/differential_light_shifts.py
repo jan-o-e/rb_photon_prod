@@ -1,7 +1,7 @@
 import numpy as np
 from sympy.physics.wigner import wigner_6j
 from scipy.constants import hbar, h
-from src.modules.atom_config import RbAtom
+from modules.atom_config import RbAtom
 
 
 class DifferentialStarkShifts:

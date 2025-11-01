@@ -6,18 +6,18 @@ import numpy as np
 from scipy.integrate import trapezoid
 from qutip import mesolve, tensor, qeye, destroy
 
-from src.modules.cavity import (
+from modules.cavity import (
     cav_collapse_ops,
 )
-from src.modules.simulation import Simulation
-from src.modules.correlation_functions import (
+from modules.simulation import Simulation
+from modules.correlation_functions import (
     exp_eval_fixed_start,
     rho_evo_fixed_start,
     rho_evo_floating_start_finish,
     exp_eval_floating_start_finish,
 )
-from src.modules.integration_functions import trapz_integral_real_imaginary
-from src.modules.photon_correlation_utils import (
+from modules.integration_functions import trapz_integral_real_imaginary
+from modules.photon_correlation_utils import (
     generate_time_correlator_eval,
     plot_density_matrix_correlations,
     plot_n2_density_matrix_correlation,

@@ -5,10 +5,10 @@ import numpy as np
 from qutip import fidelity
 from scipy import interpolate
 
-from src.modules.cavity import plotter_cavemission
-from src.modules.simulation import Simulation
-from src.modules.differential_light_shifts import DifferentialStarkShifts
-from src.modules.laser_pulses import *
+from modules.cavity import plotter_cavemission
+from modules.simulation import Simulation
+from modules.differential_light_shifts import DifferentialStarkShifts
+from modules.laser_pulses import *
 
 
 # INSERT OPTIMAL PARAMETERS HERE

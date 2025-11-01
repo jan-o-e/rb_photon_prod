@@ -5,12 +5,12 @@ import os
 
 import numpy as np
 from qutip import tensor, qeye, basis
-from src.modules.ham_sim_source import (
+from modules.ham_sim_source import (
     couplingsToCavHamiltonian,
     couplingsToLaserHamiltonian,
     couplingsToFarDetunedRamanHamiltonian,
 )
-from src.modules.ketbra_config import RbKetBras
+from modules.ketbra_config import RbKetBras
 
 
 class RbAtom:

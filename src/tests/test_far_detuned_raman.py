@@ -11,9 +11,9 @@ import numpy as np
 import pytest
 from qutip import mesolve
 
-from src.modules.atom_config import RbAtom
-from src.modules.ketbra_config import RbKetBras
-from src.modules.laser_pulses import create_flattop_blackman
+from modules.atom_config import RbAtom
+from modules.ketbra_config import RbKetBras
+from modules.laser_pulses import create_flattop_blackman
 
 # Path to reference data
 REFERENCE_FILE = os.path.join(

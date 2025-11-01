@@ -1,4 +1,4 @@
-from src.modules.vector_functions import perpendicular_vector
+from modules.vector_functions import perpendicular_vector
 import numpy as np
 from qutip import tensor, destroy, qeye, expect, qdiags
 from matplotlib import pyplot as plt

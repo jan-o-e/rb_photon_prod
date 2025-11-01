@@ -10,9 +10,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from qutip import mesolve, fidelity
 
-from src.modules.atom_config import RbAtom
-from src.modules.ketbra_config import RbKetBras
-from src.modules.laser_pulses import create_flattop_blackman
+from modules.atom_config import RbAtom
+from modules.ketbra_config import RbKetBras
+from modules.laser_pulses import create_flattop_blackman
 
 # List the groundstates to be included in the simulation
 

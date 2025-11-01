@@ -3,10 +3,10 @@ import numpy as np
 from scipy import interpolate
 import pickle
 
-from src.modules.ham_sim_source import *
-from src.modules.simulation import Simulation
-from src.modules.differential_light_shifts import DifferentialStarkShifts
-from src.modules.laser_pulses import *
+from modules.ham_sim_source import *
+from modules.simulation import Simulation
+from modules.differential_light_shifts import DifferentialStarkShifts
+from modules.laser_pulses import *
 
 
 def save_object_to_pkl(obj, filename):

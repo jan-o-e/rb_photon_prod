@@ -5,12 +5,12 @@ import numpy as np
 
 from qutip import mcsolve
 
-from src.modules.atom_config import RbAtom
-from src.modules.cavity import (
+from modules.atom_config import RbAtom
+from modules.cavity import (
     cav_collapse_ops,
     quant_axis_cavbasis_mapping,
 )
-from src.modules.ketbra_config import RbKetBras
+from modules.ketbra_config import RbKetBras
 
 # List the groundstates to be included in the simulation
 
