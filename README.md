@@ -9,7 +9,7 @@ Atom-cavity systems provide robust platforms for quantum information processing,
 
 The simulation framework enables comprehensive modeling of cavity quantum electrodynamics (cQED) experiments, including full hyperfine structure, arbitrary pulse sequences, spontaneous emission, and photon correlation functions. This toolbox was developed to explore optimal schemes for generating bursts of polarised single photons from atom-cavity sources, as well as investigating the generation of time-bin entangled photonic states.
 
-All results presented in Ernst et al. *"Bursts of Polarised Photons from Atom-Cavity Sources"* (J. Phys. B: At. Mol. Opt. Phys. **56** 205003, 2023) as well as *Controlling Quantum Systems at the Pulse Level: Cavity QED & Beyond* can be reproduced using this simulation toolbox. The code has been organised into modular classes and functions for different aspects of the simulation, making it straightforward to construct custom pulse sequences and explore novel quantum protocols.
+All results presented in Ernst et al. *"Bursts of Polarised Photons from Atom-Cavity Sources"* (J. Phys. B: At. Mol. Opt. Phys. **56** 205003, 2023) as well as in *Controlling Quantum Systems at the Pulse Level: Cavity QED & Beyond (forthcoming)* 2025 can be reproduced using this simulation toolbox. The code has been organised into modular classes and functions for different aspects of the simulation, making it straightforward to construct custom pulse sequences and explore novel quantum protocols.
 
 The code presented here was inspired by the original [rb_cqed package for modelling cavity-QED](https://github.com/tomdbar/rb-cqed). The Mathematica scripts used for calculating Clebsch-Gordan coefficients and energy level splittings are adapted from that repository—consider this as rb_cqed v2.
 
@@ -79,81 +79,7 @@ Core simulation modules and example notebooks:
   - `integration_functions.py` - Numerical integration for complex-valued functions
   - `tensor_functions.py` - Custom tensor operators for composite Hilbert spaces
   - `vector_functions.py` - Vector algebra for polarisation and geometry
-- `CQED_Rb_Simulator.ipynb` - Main demonstration notebook for general simulations
-- `Photon_Correlation_Example_Calc_n1.ipynb` - Example single-photon correlation calculation
-- `FarDetuned_Raman.ipynb` - Far-detuned Raman transition analysis
 - `tests/` - Unit tests for core functionality
-
-### `experiments/`
-Various experiments:
-- `calibrate_fd_raman_pulses/` - Far-detuned Raman pulse calibration
-- `fullsimulation/` - Complete end-to-end simulations
-- `stirap_rotations/` - STIRAP (Stimulated Raman Adiabatic Passage) pulse optimisations
-- `vstirap/` - Variable-STIRAP protocols for photon generation
-
-### `run_correlation_calc/`
-Production scripts for running photon correlation calculations:
-- Parameter sweep scripts for n=1, n=2, and n=3 photon generation
-- Magnetic field, detuning, and pulse shape optimisation studies
-- Cluster-ready variants for high-performance computing environments
-
-### `saved_data_bursts/`
-Storage for photon burst simulation results and output data.
-
-### `saved_data_timebin/`
-Storage for time-bin encoded photon simulation results and correlation data.
-
-## Running Scripts
-
-To run any of the scripts in the repo, navigate to the repo directory and run the script as a module:
-```bash
-cd rb_photon_prod
-python -m src.{foldername}.{filename}
-```
-
-# Running Photon Correlation Calculations
-
-The `run_correlation_calc/` directory contains production-ready scripts for calculating photon correlation functions (g⁽²⁾(τ)) and analyzing multi-photon generation schemes.
-
-Two very useful references to understand these calculations are Bauch, David, et al. "Time-bin entanglement in the deterministic generation of linear photonic cluster states." APL Quantum 1.3 (2024) and Tóth, Géza, and Otfried Gühne. "Detecting genuine multipartite entanglement with two local measurements." Physical review letters 94.6 (2005): 060501.
-
-
-## Available Correlation Scripts
-
-### Single Photon (n=1)
-- `run_n1_correlation_calc_single.py` - Single parameter set calculation
-- `run_n1_b_field_sweep.py` - Sweep over magnetic field strengths
-- `run_n1_bfield_det_sweep.py` - B-field and detuning grid sweep
-- `run_n1_omega_len_vst_sweep.py` - Rabi frequency and pulse length optimisation
-- `run_n1_omega_rot_grid_sweep.py` - Rotation angle grid sweep
-- `run_n1_omeg_vst_shape_sweep.py` - Pulse shape comparison
-- `run_n1_two_phot_det_sweep.py` - Two-photon detuning sweep
-
-### Two Photon (n=2)
-- `run_n2_correlation_single.py` - Single two-photon calculation
-- `run_n2_b_field_sweep.py` - B-field optimisation for n=2
-- `run_n2_omega_early_omega_late_sweep.py` - Early/late pulse Rabi frequency sweep
-- `run_n2_omega_stirap_grid_sweep.py` - STIRAP parameter optimisation
-- `run_n2_two_phot_det_sweep.py` - Two-photon detuning effects
-
-### Three Photon (n=3)
-- `run_n3_correlation_calc_single.py` - Three-photon correlation calculation
-
-### Cluster State Calculation (WIP)
-- `run_correlation_calc_cluster.py`
-- `run_n1_correlation_calc_cluster.py`
-
-## Output
-
-Results are saved to:
-- `saved_data_timebin/photon_correlations/` - Time-bin correlation data
-- `saved_data_bursts/` - Burst generation analysis
-
-Output includes:
-- Correlation functions g⁽ⁿ⁾(τ₁, τ₂, ...)
-- Photon emission statistics
-- Density matrix evolution
-- Visualisation plots (if `_plot=True`)
 
 ## Example Notebooks
 
@@ -161,6 +87,32 @@ For interactive exploration:
 - [Photon_Correlation_Example_Calc_n1.ipynb](src/Photon_Correlation_Example_Calc_n1.ipynb) - Guided single-photon correlation analysis
 - [CQED_Rb_Simulator.ipynb](src/CQED_Rb_Simulator.ipynb) - General simulation examples
 - [FarDetuned_Raman.ipynb](src/FarDetuned_Raman.ipynb) - Simulation example for far detuned Raman pulses
+
+### `experiments/`
+Various experiments:
+- `calibrate_fd_raman_pulses/` - Far-detuned Raman pulse calibration
+- `fullsimulation/` - Complete end-to-end simulation sequences
+- `stirap_rotations/` - STIRAP pulse optimisations
+- `vstirap/` - v-STIRAP protocols for photon generation
+
+### `run_correlation_calc/`
+Production scripts for running photon correlation calculations:
+- Parameter sweep scripts for n=1, n=2, and n=3 photon generation
+- Magnetic field, detuning, and pulse shape optimisation
+
+### `saved_data_bursts/`
+Saved data for photon burst simulation results and output data.
+
+### `saved_data_timebin/`
+Saved data for time-bin encoded photonic states simulation results and data.
+
+# Running Photon Correlation Calculations
+
+The `run_correlation_calc/` directory contains production-ready scripts for calculating photon correlation functions (g⁽²⁾(τ)) and analyzing multi-photon generation schemes. Various calculations for different photon numbers and experimental parameters are available.
+
+Two very useful references to understand these calculations are Bauch, David, et al. "Time-bin entanglement in the deterministic generation of linear photonic cluster states." APL Quantum 1.3 (2024) and Tóth, Géza, and Otfried Gühne. "Detecting genuine multipartite entanglement with two local measurements." Physical review letters 94.6 (2005): 060501.
+
+The calculations for photonic cluster states are work in progress.
 
 # Code Quality and Formatting
 
