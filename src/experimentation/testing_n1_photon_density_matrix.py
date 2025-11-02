@@ -8,19 +8,19 @@ from qutip import (
     destroy,
 )
 
-from src.modules.cavity import (
+from modules.cavity import (
     cav_collapse_ops,
 )
-from src.modules.simulation import Simulation
-from src.modules.differential_light_shifts import DifferentialStarkShifts
-from src.modules.laser_pulses import (
+from modules.simulation import Simulation
+from modules.differential_light_shifts import DifferentialStarkShifts
+from modules.laser_pulses import (
     create_masked,
 )
-from src.modules.correlation_functions import (
+from modules.correlation_functions import (
     rho_evo_fixed_start,
     rho_evo_floating_start_finish,
 )
-from src.modules.photon_correlation_utils import plot_density_matrix_correlations
+from modules.photon_correlation_utils import plot_density_matrix_correlations
 
 _ground_states = {
     "g1M": 0,

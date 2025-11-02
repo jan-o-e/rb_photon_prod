@@ -10,7 +10,7 @@ import numpy as np
 import pickle
 import secrets
 
-from src.modules.photon_correlation_calc_cluster import TimeBinPhotonCorrelationsCluster
+from modules.photon_correlation_calc_cluster import TimeBinPhotonCorrelationsCluster
 
 def run_simulation(_save_dir,
                    n_sim_steps: int = 20,

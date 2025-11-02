@@ -6,7 +6,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, '..'))
 sys.path.insert(0, parent_dir)
 
-from src.modules.photon_correlation_calc import TimeBinPhotonCorrelations
+from modules.photon_correlation_calc import TimeBinPhotonCorrelations
 import numpy as np
 import pickle
 import os

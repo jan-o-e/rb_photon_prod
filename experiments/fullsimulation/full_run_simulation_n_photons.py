@@ -10,10 +10,10 @@ import os
 import numpy as np
 from scipy import interpolate
 
-from src.modules.cavity import plotter_cavemission, cav_emission_from_state
-from src.modules.simulation import Simulation
-from src.modules.differential_light_shifts import DifferentialStarkShifts
-from src.modules.laser_pulses import *
+from modules.cavity import plotter_cavemission, cav_emission_from_state
+from modules.simulation import Simulation
+from modules.differential_light_shifts import DifferentialStarkShifts
+from modules.laser_pulses import *
 
 
 output_states_list_full=[]

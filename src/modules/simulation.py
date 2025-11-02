@@ -4,17 +4,17 @@ from scipy import interpolate
 from itertools import chain
 from qutip import mesolve, Qobj
 
-from src.modules.laser_pulses import (
+from modules.laser_pulses import (
     create_masked,
     create_fstirap,
     create_single_blackman,
     create_flattop_blackman,
     create_flattop_gaussian,
 )
-from src.modules.atom_config import RbAtom
-from src.modules.cavity import quant_axis_cavbasis_mapping, cav_collapse_ops
-from src.modules.ketbra_config import RbKetBras
-from src.modules.differential_light_shifts import DifferentialStarkShifts
+from modules.atom_config import RbAtom
+from modules.cavity import quant_axis_cavbasis_mapping, cav_collapse_ops
+from modules.ketbra_config import RbKetBras
+from modules.differential_light_shifts import DifferentialStarkShifts
 
 
 class Simulation:

@@ -4,8 +4,8 @@ import numpy as np
 
 # importing sys
 
-from src.modules.simulation import Simulation
-from src.modules.differential_light_shifts import DifferentialStarkShifts
+from modules.simulation import Simulation
+from modules.differential_light_shifts import DifferentialStarkShifts
 
 
 _ground_states = {

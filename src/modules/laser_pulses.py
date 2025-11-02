@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.constants import c, epsilon_0, hbar
 
+
 def rabi_to_laserpower(omega, d, cg, beam_waist):
     """
     Convert Rabi frequency to laser power
@@ -10,9 +11,10 @@ def rabi_to_laserpower(omega, d, cg, beam_waist):
     d: dipole moment in C*m
     cg: angular CG dependence
     beam_waist: beam waist in micron"""
-    efield=(hbar*(omega*10**6))/(d*cg)
-    intensity=(efield**2*epsilon_0*c)/(2)
-    return (intensity*np.pi*(beam_waist*10**(-6))**2)*10**(3) # in mW
+    efield = (hbar * (omega * 10**6)) / (d * cg)
+    intensity = (efield**2 * epsilon_0 * c) / (2)
+    return (intensity * np.pi * (beam_waist * 10 ** (-6)) ** 2) * 10 ** (3)  # in mW
+
 
 def create_pulse(_time_array, _pulse_fct, _pulse_amp):
     """

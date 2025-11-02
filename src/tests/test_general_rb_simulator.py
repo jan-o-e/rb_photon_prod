@@ -11,9 +11,9 @@ import pytest
 from itertools import chain
 from qutip import mesolve
 
-from src.modules.atom_config import RbAtom
-from src.modules.cavity import cav_collapse_ops, quant_axis_cavbasis_mapping
-from src.modules.ketbra_config import RbKetBras
+from modules.atom_config import RbAtom
+from modules.cavity import cav_collapse_ops, quant_axis_cavbasis_mapping
+from modules.ketbra_config import RbKetBras
 
 # Path to reference data
 REFERENCE_FILE = os.path.join(
